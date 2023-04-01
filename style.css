@@ -1,0 +1,30 @@
+.game {
+    width: 800px;
+    height: 500px;
+    border: 1px solid #2d739c;
+    margin: auto;
+    margin-top: 20px;
+    animation: dayChanges 10s infinite linear;
+}
+
+@keyframes dayChanges {
+    0% {
+        background-image: linear-gradient(0deg, rgb(167, 212, 195), rgb(10, 185, 209));
+    }
+    50% {
+        background-image: linear-gradient(0deg, rgb(77, 174, 191), rgb(32, 83, 120));
+    }
+    100% {
+        background-image: linear-gradient(0deg, rgb(73, 92, 132), rgb(23, 44, 79));
+    }
+}
+
+.gameOver {
+    background-image: linear-gradient(0deg, rgb(4, 18, 36), rgb(1, 18, 20));
+}
+
+.gameOverFire {
+    background-image: linear-gradient(0deg, rgb(165, 89, 18), rgb(233, 44, 15));
+}
+    
+    
