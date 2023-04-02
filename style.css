@@ -1,30 +1,70 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: auto;
+}
+
 .game {
-    width: 800px;
-    height: 500px;
-    border: 1px solid #2d739c;
+    width: 900px;
+    height: 620px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    border-radius: 5px solid #263d4d;
+}
+
+.game-details {
+    width: 100%;
+    border-bottom: 1px solid #c6c9cb;
     margin: auto;
-    margin-top: 20px;
+    background-color: #0b1019;
+    font-size: 1rem;
+    font-weight: 200;
+    padding: 20px 20px;
+    display: flex;
+    justify-content: space-between;
+    color: azure;
+}
+
+.play-board {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template: repeat(30, 1fr, ) / repeat(30, 1fr);
     animation: dayChanges 10s infinite linear;
 }
+
 
 @keyframes dayChanges {
     0% {
         background-image: linear-gradient(0deg, rgb(167, 212, 195), rgb(10, 185, 209));
     }
+
     50% {
         background-image: linear-gradient(0deg, rgb(77, 174, 191), rgb(32, 83, 120));
     }
+
     100% {
-        background-image: linear-gradient(0deg, rgb(73, 92, 132), rgb(23, 44, 79));
+        background-image: linear-gradient(0deg, rgb(46, 62, 97),  #121823);
     }
 }
 
 .gameOver {
-    background-image: linear-gradient(0deg, rgb(4, 18, 36), rgb(1, 18, 20));
+    background-image: linear-gradient(0deg, #293447,  #293447);
 }
 
 .gameOverFire {
     background-image: linear-gradient(0deg, rgb(165, 89, 18), rgb(233, 44, 15));
 }
-    
-    
+
+#crazyMan {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #93888e;
+    background-color: #dfd5da;
+    background-size: 20px 20px;
+    position: relative;
+    top: 533px;
+    left: 430px;
+}
