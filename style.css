@@ -6,8 +6,8 @@ body {
 }
 
 .game {
-    width: 900px;
-    height: 620px;
+    width: 700px;
+    height: 1020px;
     display: flex;
     flex-direction: column;
     border-radius: 5px solid #263d4d;
@@ -29,7 +29,7 @@ body {
     width: 100%;
     height: 100%;
     display: grid;
-    grid-template: repeat(30, 1fr, ) / repeat(30, 1fr);
+    grid-template: repeat(70, 1fr) / repeat(55, 1fr);
     animation: dayChanges 10s infinite linear;
 }
 
@@ -56,13 +56,18 @@ body {
     background-image: linear-gradient(0deg, rgb(165, 89, 18), rgb(233, 44, 15));
 }
 
-#crazyMan {
-    width: 20px;
-    height: 20px;
-    border: 1px solid #93888e;
+.cloudLight {
     background-color: #dfd5da;
-    background-size: 20px 20px;
-    position: relative;
-    top: 533px;
-    left: 430px;
+}
+
+.cloudDark {
+    background-color: #514d4f;
+}
+
+.crazyBoy {
+    background-color: #880a49;
+}
+
+.bullet {
+    background-color: #bdb813;
 }
