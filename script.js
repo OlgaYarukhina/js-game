@@ -7,22 +7,39 @@ let cloud = [][arr];
 cloudLight = [[10, 10], [11, 10], [9, 11], [10, 11], [11, 11], [12, 11]];
 cloudDark = [[10, 20], [11, 20], [9, 21], [10, 21], [11, 21], [12, 21]];
 
-let crazyBoy = [27, 70];
-let boyMove = [0, 0];
-let bullet = [27, 71];
+let crazyBoy = [27, 55];
+let bulletNumber = 10;
+let bulletStart = crazyBoy.slice();
+let bullets = [bulletStart];
 let bulletMove = [0, 0];
 
 
 
 const draw = () => {
-    if(gameOver) return handleGameOver();
+    if (gameOver) return handleGameOver();
 
-    let htmlMarkup = `<div class ="crazyBoy" style="grid-area: ${crazyBoy[1]} / ${crazyBoy[0]}"></div>`
-    crazyBoy[0] += boyMove[0];
+    let htmlMarkup = `<div class ="crazyBoy" style="grid-area: ${crazyBoy[1]} / ${crazyBoy[0]}"></div>`;
 
-    htmlMarkup += `<div class ="bullet" style="grid-area: ${bullet[1]} / ${bullet[0]}"></div>`
-    bullet[1] += bulletMove[1];
-    
+    htmlMarkup += `<div class ="img" style="grid-area: ${crazyBoy[1]} / ${crazyBoy[0]}"></div>`;
+
+    if (bullets.length > 1) {
+        for (let i = 1; i < bullets.length; i++) {
+            console.log[i]
+            htmlMarkup += `<div class ="bullet" style="grid-area: ${bullets[i][1]} / ${bullets[i][0]}"></div>`;
+            bullets[i][1] += bulletMove[1];
+            if (bullets[i][1] === 0) {
+                bullets.length--;
+                delete bullets[i];
+                break
+               }
+        }
+    }
+
+
+
+   htmlMarkup += `<div class ="crazyBoy" style="grid-area: ${crazyBoy[1]} / ${crazyBoy[0]}"></div>`;
+
+
     for (let i = 0; i < cloudLight.length; i++) {
         htmlMarkup += `<div class ="cloudLight" style="grid-area: ${cloudLight[i][1]} / ${cloudLight[i][0]}"></div>`;
     }
@@ -38,41 +55,43 @@ draw();
 
 
 const moveCloud = () => {
-    for (let i = 0; i < cloudLight.length; i++){
-        cloudLight[i][0] +=1
+    for (let i = 0; i < cloudLight.length; i++) {
+        cloudLight[i][0] += 1
     }
 
     if (cloudLight[0][0] > 55) {
-        for (let i = 0; i < cloudLight.length; i++){
-            cloudLight[i][1] +=4
-            cloudLight[i][0] -=50
+        for (let i = 0; i < cloudLight.length; i++) {
+            cloudLight[i][1] += 4
+            cloudLight[i][0] -= 50
         }
     }
 
-    if (cloudLight[0][1] > 15 && cloudLight[0][0] === 20) { //if cloud too low it start rain
+    if (cloudLight[0][1] > 55 && cloudLight[0][0] === 20) { //if cloud too low it start rain
         gameOver = true;
     }
-    
 
-    draw()
 }
 
 
 setInterval(moveCloud, 100);
 
 const moveCrazyBoy = (e) => {
-   if (e.key === "ArrowLeft" && crazyBoy[0] > 5){
-    boyMove[0] = -1;
-   } else if (e.key === "ArrowRight" && crazyBoy[0] < 30){
-    boyMove[0] = 1;
-   } 
-   draw();
+    if (e.key === "ArrowLeft" && crazyBoy[0] > 5) {
+        crazyBoy[0] -= 1;
+        bulletStart[0] -= 1;
+    } else if (e.key === "ArrowRight" && crazyBoy[0] < 50) {
+        crazyBoy[0] += 1;
+        bulletStart[0] += 1;
+    }
 }
 
-function shoot (e) {
-    let sodiumBombsId
-    if (e.key === 'ArrowUp') { 
-        bulletMove[1] = -3;
+const shoot = (e) => {
+   
+    if (e.key === 'ArrowUp' && bulletNumber > 0) {
+        bulletMove[1] = -1;
+        bulletNumber--;
+        let shot = bulletStart.slice();
+        bullets.push(shot);
     }
 }
 
@@ -80,7 +99,9 @@ function shoot (e) {
 document.addEventListener('keydown', moveCrazyBoy)
 document.addEventListener('keydown', shoot)
 
-setIntervalId = setInterval(draw,125);
+//setInterval(moveCloud, 100);
+
+setIntervalId = setInterval(draw, 15);
 
 const handleGameOver = () => {
     clearInterval(setIntervalId)
