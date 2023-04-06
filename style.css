@@ -57,6 +57,7 @@ body {
 }
 
 .cloudLight {
+    border-radius: 20%;
     animation: cloudColorChanges 20s infinite linear;
 }
 

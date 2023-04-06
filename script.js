@@ -26,14 +26,23 @@ const draw = () => {
 
 
     if (bullets.length > 1) {
-        for (let i = 1; i < bullets.length; i++) {
-            console.log[i]
-            htmlMarkup += `<div class ="bullet" style="grid-area: ${bullets[i][1]} / ${bullets[i][0]}"></div>`;
-            bullets[i][1] += bulletMove[1];
-            if (bullets[i][1] === 0) {
+        for (let k = 1; k < bullets.length; k++) {
+            htmlMarkup += `<div class ="bullet" style="grid-area: ${bullets[k][1]} / ${bullets[k][0]}"></div>`;
+            bullets[k][1] += bulletMove[1];
+            if (bullets[k][1] === 5) {
                 bullets.length--;
-                delete bullets[i];
+                delete bullets[k];
                 break
+            }
+
+            for (let i = 0; i < clouds.length; i++) {
+                for (let j = 0; j < clouds[i].length; j++) {
+                    if (bullets[k][1] === clouds[i][j][1] && bullets[k][0] === clouds[i][j][0]) {
+                        clouds.length--;
+                        delete clouds[i];
+                        break;
+                    }
+                }
             }
         }
     }
@@ -55,6 +64,8 @@ const draw = () => {
         htmlMarkup += `<div class ="cloudDark" style="grid-area: ${cloudDark[i][1]} / ${cloudDark[i][0]}"></div>`;
     }
 
+
+
     playBoard.innerHTML = htmlMarkup;
 }
 
@@ -74,7 +85,7 @@ const moveCloud = () => {
         }
     }
 
-    if (cloudLight[0][1] > 15 && cloudLight[0][0] === 20) { //if cloud too low it start rain
+    if (cloudLight[0][1] > 25 && cloudLight[0][0] === 20) { //if cloud too low it start rain
         gameOver = true;
     }
 }
@@ -97,9 +108,9 @@ const moveClouds = () => {
 
 const createNewCloud = () => {
     if (cloudsNumber > 0) {
-    clouds.push(cloudNew);
-    cloudNew = [[2, 1], [3, 1], [1, 2], [2, 2], [3, 2], [4, 2]];
-    cloudsNumber--;
+        clouds.push(cloudNew);
+        cloudNew = [[2, 1], [3, 1], [1, 2], [2, 2], [3, 2], [4, 2]];
+        cloudsNumber--;
     }
 }
 
@@ -171,5 +182,5 @@ const handleGameOver = () => {
 // setInterval(dayLightChange, 2000);
 //<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" defer></script>
 
-  //    htmlMarkup += `<div class ="cloud" style="grid-area: ${20} / ${20}; grid-column-start: span 4; 
+  //    htmlMarkup += `<div class ="cloud" style="grid-area: ${20} / ${20}; grid-column-start: span 4;
     //    grid-row-start: span 2;"></div>`;
