@@ -57,7 +57,29 @@ body {
 }
 
 .cloudLight {
-    background-color: #dfd5da;
+    animation: cloudColorChanges 20s infinite linear;
+}
+
+@keyframes cloudColorChanges {
+    0% {
+        background-color: rgb(200, 216, 230);
+    }
+
+    25% {
+        background-color:rgb(121, 141, 185);
+    }
+
+    50% {
+        background-color:rgb(121, 141, 185);
+    }
+
+    75% {
+        background-color:rgb(121, 141, 185);
+    }
+
+    100% {
+        background-color: #293447;
+    }
 }
 
 .cloudDark {
@@ -73,8 +95,25 @@ body {
     border-radius: 50%;
 }
 
-
-.img {
-    background-image: url(img/dino.png);
-    background-size: 5px 5px;
+.platform {
+    background-color: #7e610a;
+    grid-column: 23 / 36 ;
+    grid-row: 56 / 61;
+    text-align: center;
+    color: #c6c9cb;
 }
+
+.cloud {
+    border: 1px solid #c6c9cb;
+    grid-template-areas: 
+    ". c c ." 
+    "c c c c";
+}
+
+.cloudPart {
+    background-color: #a2a9ac;
+    grid-area: c;
+    
+}
+
+
