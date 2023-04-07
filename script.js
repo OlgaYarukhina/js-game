@@ -27,12 +27,12 @@ const draw = () => {
     htmlMarkup += `<div class ="crazyBoy" style="grid-area: ${crazyBoy[1]} / ${crazyBoy[0]}"></div>`;
 
     for (let i = 0; i < clouds.length; i++) {
+        if (clouds[i] !== undefined){
         for (let j = 0; j < clouds[i].length; j++) {
             if (clouds[i][j][1] < 10) { 
                 htmlMarkup += `<div class ="cloudLight" style="grid-area: ${clouds[i][j][1]} / ${clouds[i][j][0]}"></div>`;
             } else if ((clouds[i][j][1] < 15)) {
                 htmlMarkup += `<div class ="cloudGrey" style="grid-area: ${clouds[i][j][1]} / ${clouds[i][j][0]}"></div>`;
-
             } else {
                 if (i === storm) {
                     htmlMarkup += `<div class ="storm" style="grid-area: ${clouds[i][j][1]} / ${clouds[i][j][0]}"></div>`;
@@ -40,8 +40,8 @@ const draw = () => {
                     htmlMarkup += `<div class ="cloudDark" style="grid-area: ${clouds[i][j][1]} / ${clouds[i][j][0]}"></div>`;
                 }
             }
-            
         }
+    }
     }
 
     for (let i = 0; i < cloudLight.length; i++) {
@@ -60,17 +60,21 @@ const draw = () => {
             }
 
             for (let i = 0; i < clouds.length; i++) {
+                if (clouds[i] !== undefined){
                 for (let j = 0; j < clouds[i].length; j++) {
+                    
                     if (bullets[k][1] === clouds[i][j][1] && bullets[k][0] === clouds[i][j][0]) {
                         for (let k = 0; k < clouds[i].length; k++) {
                             htmlMarkup += `<div class ="cloudPurpul" style="grid-area: ${clouds[i][k][1]} / ${clouds[i][k][0]}"></div>`;
                         }
-                        clouds.slice(i, 1)
-                        clouds.length--;
+                        //clouds.slice(i, 1)
+                        // clouds.length--;
+                        delete clouds[i]
                         break;
                     }
                 }
             }
+        }
         }
     }
 
@@ -101,9 +105,9 @@ const moveCloud = () => {
 
 const moveClouds = () => {
     for (let i = 0; i < clouds.length; i++) {
+        if (clouds[i] !== undefined){
         for (let j = 0; j < clouds[i].length; j++) {
             clouds[i][j][0] += 1
-
             if (clouds[i][j][0] > 55) {
                 for (let k = 0; k < clouds[i].length; k++) {
                     clouds[i][k][1] += 4
@@ -112,6 +116,7 @@ const moveClouds = () => {
             }
         }
     }
+}
 }
 
 const createNewCloud = () => {

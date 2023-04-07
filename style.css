@@ -6,8 +6,8 @@ body {
 }
 
 .game {
-    width: 700px;
-    height: 900px;
+    width: 480px;
+    height: 600px;
     display: flex;
     flex-direction: column;
     border-radius: 5px solid #263d4d;
@@ -30,7 +30,7 @@ body {
     height: 100%;
     display: grid;
     grid-template: repeat(60, 1fr) / repeat(55, 1fr);
-    animation: dayChanges 10s infinite linear;
+    animation: dayChanges 30s infinite linear;
 }
 
 
