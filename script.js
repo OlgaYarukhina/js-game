@@ -1,14 +1,13 @@
 const playBoard = document.querySelector(".play-board");
-
+let setIntervalId;
 let gameOver = false;
 
 let arr = [];
 let cloud = [][arr];
 let cloudNew = [[2, 1], [3, 1], [1, 2], [2, 2], [3, 2], [4, 2]]
 let cloudLight = [[10, 10], [11, 10], [9, 11], [10, 11], [11, 11], [12, 11]];
-let cloudDark = [[10, 20], [11, 20], [9, 21], [10, 21], [11, 21], [12, 21]];
 
-let clouds = [[[7, 1], [8, 1], [6, 2], [7, 2], [8, 2], [9, 2]], [[12, 1], [13, 1], [11, 2], [12, 2], [13, 2], [14, 2]]]
+let clouds = [[2, 1], [3, 1], [1, 2], [2, 2], [3, 2], [4, 2]]
 let cloudsNumber = 10;
 
 let crazyBoy = [29, 55];
@@ -16,6 +15,7 @@ let bulletNumber = 10;
 let bulletStart = crazyBoy.slice();
 let bullets = [bulletStart];
 let bulletMove = [0, 0];
+let storm;
 
 
 
@@ -24,47 +24,55 @@ const draw = () => {
 
     let htmlMarkup = `<div class ="platform" >STOP!</div>`;
 
-
-    if (bullets.length > 1) {
-        for (let k = 1; k < bullets.length; k++) {
-            htmlMarkup += `<div class ="bullet" style="grid-area: ${bullets[k][1]} / ${bullets[k][0]}"></div>`;
-            bullets[k][1] += bulletMove[1];
-            if (bullets[k][1] === 5) {
-                bullets.length--;
-                delete bullets[k];
-                break
-            }
-
-            for (let i = 0; i < clouds.length; i++) {
-                for (let j = 0; j < clouds[i].length; j++) {
-                    if (bullets[k][1] === clouds[i][j][1] && bullets[k][0] === clouds[i][j][0]) {
-                        clouds.length--;
-                        delete clouds[i];
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-
-
     htmlMarkup += `<div class ="crazyBoy" style="grid-area: ${crazyBoy[1]} / ${crazyBoy[0]}"></div>`;
 
     for (let i = 0; i < clouds.length; i++) {
         for (let j = 0; j < clouds[i].length; j++) {
-            htmlMarkup += `<div class ="cloudLight" style="grid-area: ${clouds[i][j][1]} / ${clouds[i][j][0]}"></div>`;
+            if (clouds[i][j][1] < 10) { 
+                htmlMarkup += `<div class ="cloudLight" style="grid-area: ${clouds[i][j][1]} / ${clouds[i][j][0]}"></div>`;
+            } else if ((clouds[i][j][1] < 15)) {
+                htmlMarkup += `<div class ="cloudGrey" style="grid-area: ${clouds[i][j][1]} / ${clouds[i][j][0]}"></div>`;
+
+            } else {
+                if (i === storm) {
+                    htmlMarkup += `<div class ="storm" style="grid-area: ${clouds[i][j][1]} / ${clouds[i][j][0]}"></div>`;
+                } else {
+                    htmlMarkup += `<div class ="cloudDark" style="grid-area: ${clouds[i][j][1]} / ${clouds[i][j][0]}"></div>`;
+                }
+            }
+            
         }
     }
 
     for (let i = 0; i < cloudLight.length; i++) {
         htmlMarkup += `<div class ="cloudLight" style="grid-area: ${cloudLight[i][1]} / ${cloudLight[i][0]}"></div>`;
     }
-    for (let i = 0; i < cloudDark.length; i++) {
-        htmlMarkup += `<div class ="cloudDark" style="grid-area: ${cloudDark[i][1]} / ${cloudDark[i][0]}"></div>`;
+  
+
+    if (bullets.length > 1) {
+        for (let k = 1; k < bullets.length; k++) {
+            htmlMarkup += `<div class ="bullet" style="grid-area: ${bullets[k][1]} / ${bullets[k][0]}"></div>`;
+            bullets[k][1] += bulletMove[1];
+            if (bullets[k][1] === 15) {
+                bullets.length--;
+                bullets.slice(k, 1)
+                break
+            }
+
+            for (let i = 0; i < clouds.length; i++) {
+                for (let j = 0; j < clouds[i].length; j++) {
+                    if (bullets[k][1] === clouds[i][j][1] && bullets[k][0] === clouds[i][j][0]) {
+                        for (let k = 0; k < clouds[i].length; k++) {
+                            htmlMarkup += `<div class ="cloudPurpul" style="grid-area: ${clouds[i][k][1]} / ${clouds[i][k][0]}"></div>`;
+                        }
+                        clouds.slice(i, 1)
+                        clouds.length--;
+                        break;
+                    }
+                }
+            }
+        }
     }
-
-
 
     playBoard.innerHTML = htmlMarkup;
 }
@@ -85,7 +93,7 @@ const moveCloud = () => {
         }
     }
 
-    if (cloudLight[0][1] > 25 && cloudLight[0][0] === 20) { //if cloud too low it start rain
+    if (cloudLight[0][1] > 40 && cloudLight[0][0] === 20) { //if cloud too low it start rain
         gameOver = true;
     }
 }
@@ -114,10 +122,16 @@ const createNewCloud = () => {
     }
 }
 
+const thunderstormCloud = () => {
+storm = Math.floor(Math.random()*10)+1;
+}
 
-setInterval(moveCloud, 100);
-setInterval(moveClouds, 100);
-setInterval(createNewCloud, 500);
+
+setInterval(moveCloud, 80);
+setInterval(moveClouds, 80);
+setInterval(thunderstormCloud, 400);
+setInterval(createNewCloud, 400);
+setIntervalId = setInterval(draw, 10);
 
 
 
@@ -141,12 +155,10 @@ const shoot = (e) => {
 }
 
 
-document.addEventListener('keydown', moveCrazyBoy)
-document.addEventListener('keydown', shoot)
+document.addEventListener('keydown', moveCrazyBoy);
+document.addEventListener('keydown', shoot);
 
-//setInterval(moveCloud, 100);
 
-setIntervalId = setInterval(draw, 15);
 
 const handleGameOver = () => {
     clearInterval(setIntervalId)

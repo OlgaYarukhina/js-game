@@ -58,33 +58,27 @@ body {
 
 .cloudLight {
     border-radius: 20%;
-    animation: cloudColorChanges 20s infinite linear;
+    background-color:  #d1ccce;
 }
 
-@keyframes cloudColorChanges {
-    0% {
-        background-color: rgb(200, 216, 230);
-    }
-
-    25% {
-        background-color:rgb(121, 141, 185);
-    }
-
-    50% {
-        background-color:rgb(121, 141, 185);
-    }
-
-    75% {
-        background-color:rgb(121, 141, 185);
-    }
-
-    100% {
-        background-color: #293447;
-    }
+.cloudGrey {
+    border-radius: 20%;
+    background-color: #878385;
 }
 
 .cloudDark {
+    border-radius: 20%;
     background-color: #514d4f;
+}
+
+.storm {
+    border-radius: 20%;
+    background-color: #cdcd2c;
+}
+
+.cloudPurpul {
+    border-radius: 20%;
+    background-color: #ac2ccd;
 }
 
 .crazyBoy {
