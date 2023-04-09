@@ -10,11 +10,10 @@ let arr = [];
 let cloud = [][arr];
 let cloudNew = [[2, 1], [3, 1], [1, 2], [2, 2], [3, 2], [4, 2]]
 let cloudLight = [[10, 10], [11, 10], [9, 11], [10, 11], [11, 11], [12, 11]];
-
 let clouds = [[2, 1], [3, 1], [1, 2], [2, 2], [3, 2], [4, 2]]
 let cloudsNumber = 50;
 
-let crazyBoy = [29, 55];
+let crazyBoy = [29, 53];
 let bulletNumber = 50;
 let bulletStart = crazyBoy.slice();
 let bullets = [bulletStart];
@@ -26,7 +25,8 @@ let storm;
 const draw = () => {
     if (gameOver || timer === -1) return handleGameOver();
 
-    let htmlMarkup = `<div class ="platform">STOP!</div>`;
+    let htmlMarkup = `<div class ="platform">STOP!<br>Bullets: ${bulletNumber}</div>`;
+    
 
     htmlMarkup += `<div class ="crazyBoy" style="grid-area: ${crazyBoy[1]} / ${crazyBoy[0]}"></div>`;
 
@@ -55,18 +55,19 @@ const draw = () => {
 
     if (bullets.length > 1) {
         for (let k = 1; k < bullets.length; k++) {
+            if (bullets[k] !== undefined) {
             htmlMarkup += `<div class ="bullet" style="grid-area: ${bullets[k][1]} / ${bullets[k][0]}"></div>`;
             bullets[k][1] += bulletMove[1];
             if (bullets[k][1] === 15) {
+                delete bullets[k];
                 bullets.length--;
-                bullets.slice(k, 1)
+               // bullets.slice(k, 1)
                 break
             }
 
             for (let i = 0; i < clouds.length; i++) {
                 if (clouds[i] !== undefined) {
                     for (let j = 0; j < clouds[i].length; j++) {
-
                         if (bullets[k][1] === clouds[i][j][1] && bullets[k][0] === clouds[i][j][0]) {
                             for (let k = 0; k < clouds[i].length; k++) {
                                 htmlMarkup += `<div class ="cloudPurpul" style="grid-area: ${clouds[i][k][1]} / ${clouds[i][k][0]}"></div>`;
@@ -87,9 +88,9 @@ const draw = () => {
             }
         }
     }
+    }
 
     htmlMarkup += `<div class ="timer">${minutes}:${seconds}</div>`;
-    htmlMarkup += `<div class ="countBullets">Bullets: ${bulletNumber}</div>`;
 
     playBoard.innerHTML = htmlMarkup;
 }
@@ -110,7 +111,7 @@ const moveClouds = () => {
                     }
                 }
             }
-            if (clouds[i][0][0] > 20 && clouds[i][0][1] > 40) { //if cloud too low it start rain
+            if (clouds[i][0][0] > 48 && clouds[i][0][1] > 40) { //if cloud too low it start rain
                 gameOver = true;
                 break;
         }
