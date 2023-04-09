@@ -2,7 +2,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
+   padding-top: 1%;
 }
 
 .game {
@@ -30,7 +30,7 @@ body {
     height: 100%;
     display: grid;
     grid-template: repeat(60, 1fr) / repeat(55, 1fr);
-    animation: dayChanges 30s infinite linear;
+    animation: dayChanges 60s infinite linear;
 }
 
 
@@ -96,6 +96,27 @@ body {
     grid-row: 56 / 61;
     text-align: center;
     color: #c6c9cb;
+}
+
+.timer {
+    background-color: #a3997c;
+    border-radius: 50%;
+    grid-column: 48 / 54 ;
+    grid-row: 3 / 8;
+    text-align: center;
+    padding: 25% 20%;
+    color: #232527;
+    font-size: 1rem;
+}
+
+.countBullets {
+    background-color: #a3997c;
+    border-color: #880a49;
+    grid-column: 45 / 54 ;
+    grid-row: 57 / 59;
+    text-align: center;
+    color: #232527;
+    font-size: 0.8rem;
 }
 
 .cloud {
