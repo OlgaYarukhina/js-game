@@ -98,8 +98,6 @@ const draw = () => {
 draw();
 
 
-
-
 const moveClouds = () => {
     for (let i = 0; i < clouds.length; i++) {
         if (clouds[i] !== undefined) {
@@ -112,11 +110,14 @@ const moveClouds = () => {
                     }
                 }
             }
+            if (clouds[i][0][0] > 20 && clouds[i][0][1] > 40) { //if cloud too low it start rain
+                gameOver = true;
+                break;
         }
+        
+          }
     }
-    if (clouds[0][0][0] === 20 && clouds[0][0][1] === 20) { //if cloud too low it start rain
-        gameOver = true;
-      }
+    
 }
 
 const createNewCloud = () => {
@@ -140,6 +141,7 @@ const timerCountDown = () => {
 
 setInterval(timerCountDown, 1000);
 setInterval(moveClouds, 80);
+//setInterval(moveCloud, 80);
 setInterval(thunderstormCloud, 600);
 setInterval(createNewCloud, 500);
 setIntervalId = setInterval(draw, 10);
@@ -209,21 +211,21 @@ const handleGameOver = () => {
     //    grid-row-start: span 2;"></div>`;
 
 
+    // const moveCloud = () => {
+    //     for (let i = 0; i < cloudLight.length; i++) {
+    //         cloudLight[i][0] += 1
+    //     }
+    
+    //     if (cloudLight[0][0] > 55) {
+    //         for (let i = 0; i < cloudLight.length; i++) {
+    //             cloudLight[i][1] += 4
+    //             cloudLight[i][0] -= 50
+    //         }
+    //     }
+    
+    //     if (cloudLight[0][1] > 40 && cloudLight[0][0] === 20) { //if cloud too low it start rain
+    //         gameOver = true;
+    //     }
+    // }
 
 
-// const moveCloud = () => {
-//     for (let i = 0; i < cloudLight.length; i++) {
-//         cloudLight[i][0] += 1
-//     }
-
-//     if (cloudLight[0][0] > 55) {
-//         for (let i = 0; i < cloudLight.length; i++) {
-//             cloudLight[i][1] += 4
-//             cloudLight[i][0] -= 50
-//         }
-//     }
-
-//     if (cloudLight[0][1] > 40 && cloudLight[0][0] === 20) { //if cloud too low it start rain
-//         gameOver = true;
-//     }
-// }
