@@ -120,6 +120,19 @@ body {
     font-size: 0.8rem;
 }
 
+.gameOver {
+    background: linear-gradient(45deg, rgb(226, 7, 29), rgb(34, 1, 11));
+    border-radius: 50%;
+    grid-column: 20 / 40;
+    grid-row: 20 / 40;
+    text-align: center;
+    padding: 25% 20%;
+    color: #fcf4f4;
+    text-decoration: wavy;
+    font-size: 2rem;
+    font-weight: 400;
+}
+
 .cloud {
     border: 1px solid #c6c9cb;
     grid-template-areas:
