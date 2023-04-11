@@ -2,7 +2,7 @@ const playBoard = document.querySelector(".play-board");
 const scoreElement = document.querySelector(".score");
 const highScoreElement = document.querySelector(".highScore");
 
-let setIntervalId;
+//let setIntervalId;
 let gameOver = false;
 let win = false;
 let timer = 60;
@@ -15,7 +15,6 @@ let highScore = localStorage.getItem("highScore") || 0;
 let arr = [];
 let cloud = [][arr];
 let cloudNew = [[2, 1], [3, 1], [1, 2], [2, 2], [3, 2], [4, 2]]
-//let cloudLight = [[10, 10], [11, 10], [9, 11], [10, 11], [11, 11], [12, 11]];
 let clouds = [[[2, 1], [3, 1], [1, 2], [2, 2], [3, 2], [4, 2]]]
 let cloudsNumber = 10;
 
@@ -28,17 +27,15 @@ let lighting = [-1, -1]
 let lightingMove = [0, 0];
 let storm;
 
+let isPlaying = false;
+let rAFId;
 
 
 const draw = () => {
     console.log(clouds.length);
-    if (gameOver || timer === -1) {
-        return handleGameOver();
-    }
-    if (win) {
-       
-        return handleWin();
-    }
+    if (gameOver || timer === -1) return handleGameOver();
+    if (win)  return handleWin();
+    
 
     let htmlMarkup = `<div class ="platform">STOP!<br>Bullets: ${bulletNumber}</div>`;
     htmlMarkup += `<div class ="crazyBoy" style="grid-area: ${crazyBoy[1]} / ${crazyBoy[0]}"></div>`;
@@ -86,21 +83,19 @@ const draw = () => {
                         if (bullets[k][1] === clouds[i][j][1] && bullets[k][0] === clouds[i][j][0] && i === storm) {
                             return handleGameOver();
                         }
-
                     }
-                
             }
-        
     }
     }
 
     htmlMarkup += `<div class ="timer">${minutes}:${seconds}</div>`;
 
     playBoard.innerHTML = htmlMarkup;
+    rAFId = requestAnimationFrame(draw)
 }
 
 
-draw();
+//draw();
 
 
 const moveClouds = () => {
@@ -144,11 +139,12 @@ const timerCountDown = () => {
     seconds = seconds < 10 ? "0" + seconds : seconds;
 }
 
-setInterval(timerCountDown, 1000);
-setInterval(moveClouds, 80);  
-setInterval(thunderstormCloud, 600);
-setInterval(createNewCloud, 500);
-setIntervalId = setInterval(draw, 10);
+let timerId = setInterval(timerCountDown, 1000);
+let newCloudId = setInterval(createNewCloud, 300);
+setInterval(moveClouds, 50);  
+let thunderstormId  = setInterval(thunderstormCloud, 600);
+
+//setIntervalId = setInterval(draw, 10);
 
 
 
@@ -177,29 +173,68 @@ document.addEventListener('keydown', shoot);
 
 
 
-const handleGameOver = () => {
-    clearInterval(setIntervalId)
-    alert("Game over!")
-    location.reload();
-}
 
-const handleWin = () => {
+
+const onTapGo = () => {
+    isPlaying = true;
+    let startGame = document.getElementById("start")
+    let game = document.querySelector(".game");
+    startGame.style.display = "none";
+    game.style.display = "block"
+     rAFId = requestAnimationFrame(draw)
     
-    clearInterval(setIntervalId)
-    alert("WIN!")
-   
-    location.reload();
-    score = timer;
-    highScore = score >= highScore ? score : highScore;
-    localStorage.setItem("highScore", highScore)
-    scoreElement.innerText = `Score: ${score}`;
-    highScoreElement.innerText = `High Score: ${highScore}`;
-  
+}
+
+const onTapPause = () => {
+    if (isPlaying) {
+        isPlaying = false;
+        clearInterval(timerId);
+        clearInterval(newCloudId);
+        rAFId = cancelAnimationFrame(rAFId);
+        
+    } else if (!isPlaying) {
+        isPlaying = true;
+        cancelAnimationFrame(rAFId);
+        timerId = setInterval(timerCountDown, 1000);
+        newCloudId = setInterval(createNewCloud, 300);
+        rAFId = requestAnimationFrame(draw)
+    }
+}
+
+const onTapRestart = () => {
+        location.reload();
+        isPlaying = true;
+        rAFId = requestAnimationFrame(draw)
 }
 
 
+const handleGameOver = () => {
+    // clearInterval(setIntervalId)
+    let game = document.querySelector(".game");
+    let gameOver = document.getElementById("gameOver")
+    game.style.display = "none";
+    gameOver.style.display = "block";
+    //location.reload();
+ }
+ 
+ const handleWin = () => {
+     //clearInterval(setIntervalId)
+    let game = document.querySelector(".game");
+    let win = document.getElementById("win")
+    game.style.display = "none";
+    win.style.display = "block";
+    checkScore();
+    
+   
+ }
 
-
+ const checkScore = () => {
+     score = timer;
+     highScore = score >= highScore ? score : highScore;
+     localStorage.setItem("highScore", highScore)
+     scoreElement.innerText = `Score: ${score}`;
+     highScoreElement.innerText = `High Score: ${highScore}`;
+ }
 
 
 
@@ -222,9 +257,6 @@ const handleWin = () => {
 //     light.style = bgStyle[i];
 //     i=(i+1)%bgStyle.length;
 // }
-
-// setInterval(dayLightChange, 2000);
-//<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" defer></script>
 
   //    htmlMarkup += `<div class ="cloud" style="grid-area: ${20} / ${20}; grid-column-start: span 4;
     //    grid-row-start: span 2;"></div>`;
