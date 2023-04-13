@@ -39,9 +39,16 @@ body {
     0% {
         background-image: linear-gradient(0deg, rgb(167, 212, 195), rgb(10, 185, 209));
     }
+    25% {
+        background-image: linear-gradient(0deg, rgb(77, 174, 191), rgb(32, 83, 120));
+    }
 
     50% {
         background-image: linear-gradient(0deg, rgb(77, 174, 191), rgb(32, 83, 120));
+    }
+
+    75% {
+        background-image: linear-gradient(0deg, rgb(46, 62, 97), #121823);
     }
 
     100% {

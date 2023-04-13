@@ -100,7 +100,6 @@ const draw = () => {
 
 const moveClouds = () => {
     for (let i = 0; i < clouds.length; i++) {
-        
             for (let j = 0; j < clouds[i].length; j++) {
                 clouds[i][j][0] += 1
                 if (clouds[i][j][0] > 55) {
@@ -116,6 +115,7 @@ const moveClouds = () => {
         }
           }
           if (clouds.length === 0) { //if cloud too low it start rain
+            clearInterval(timerId);
             win = true;
     }
 }
@@ -210,6 +210,7 @@ const onTapRestart = () => {
 
 const handleGameOver = () => {
     // clearInterval(setIntervalId)
+    cancelAnimationFrame(rAFId);
     let game = document.querySelector(".game");
     let gameOver = document.getElementById("gameOver")
     game.style.display = "none";
@@ -217,22 +218,27 @@ const handleGameOver = () => {
     //location.reload();
  }
  
+
  const handleWin = () => {
      //clearInterval(setIntervalId)
+     checkScore();
     let game = document.querySelector(".game");
     let win = document.getElementById("win")
     game.style.display = "none";
     win.style.display = "block";
-    checkScore();
+    scoreElement.innerText = `Score: ${minutes} : ${seconds}`;
     
    
  }
 
  const checkScore = () => {
-     score = timer;
+     score = 60 - timer;
+     minutes = Math.floor(score / 60);
+     seconds = score % 60;
+     seconds = seconds < 10 ? "0" + seconds : seconds;
+     minutes === 0 ? "00" : minutes;
      highScore = score >= highScore ? score : highScore;
      localStorage.setItem("highScore", highScore)
-     scoreElement.innerText = `Score: ${score}`;
      highScoreElement.innerText = `High Score: ${highScore}`;
  }
 
