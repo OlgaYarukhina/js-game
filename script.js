@@ -1,3 +1,5 @@
+//import { draw } from "./draw.js"
+
 const playBoard = document.querySelector(".play-board");
 const scoreElement = document.querySelector(".score");
 const highScoreElement = document.querySelector(".highScore");
@@ -16,7 +18,7 @@ let arr = [];
 let cloud = [][arr];
 let cloudNew = [[2, 1], [3, 1], [1, 2], [2, 2], [3, 2], [4, 2]]
 let clouds = [[[2, 1], [3, 1], [1, 2], [2, 2], [3, 2], [4, 2]]]
-let cloudsNumber = 10;
+let cloudsNumber = 20;
 
 let crazyBoy = [29, 53];
 let bulletNumber = 50;
@@ -91,12 +93,9 @@ const draw = () => {
     htmlMarkup += `<div class ="timer">${minutes}:${seconds}</div>`;
 
     playBoard.innerHTML = htmlMarkup;
+    //moveClouds()
     rAFId = requestAnimationFrame(draw)
 }
-
-
-//draw();
-
 
 const moveClouds = () => {
     for (let i = 0; i < clouds.length; i++) {
@@ -140,11 +139,9 @@ const timerCountDown = () => {
 }
 
 let timerId = setInterval(timerCountDown, 1000);
-let newCloudId = setInterval(createNewCloud, 300);
-setInterval(moveClouds, 50);  
+let newCloudId = setInterval(createNewCloud, 300); 
 let thunderstormId  = setInterval(thunderstormCloud, 600);
-
-//setIntervalId = setInterval(draw, 10);
+setInterval(moveClouds, 50); 
 
 
 
@@ -170,9 +167,6 @@ const shoot = (e) => {
 
 document.addEventListener('keydown', moveCrazyBoy);
 document.addEventListener('keydown', shoot);
-
-
-
 
 
 const onTapGo = () => {
@@ -209,7 +203,6 @@ const onTapRestart = () => {
 
 
 const handleGameOver = () => {
-    // clearInterval(setIntervalId)
     cancelAnimationFrame(rAFId);
     let game = document.querySelector(".game");
     let gameOver = document.getElementById("gameOver")
@@ -220,7 +213,6 @@ const handleGameOver = () => {
  
 
  const handleWin = () => {
-     //clearInterval(setIntervalId)
      checkScore();
     let game = document.querySelector(".game");
     let win = document.getElementById("win")
@@ -290,3 +282,25 @@ const handleGameOver = () => {
     //     htmlMarkup += `<div class ="cloudLight" style="grid-area: ${cloudLight[i][1]} / ${cloudLight[i][0]}"></div>`;
     // }
 
+    // export const startTile = [23, 13.5]
+    // export const startingX = startTile[1] * mapSize - 7
+    // export const startingY = startTile[0] * mapSize - 7
+    // export const maxSpeedStart = 3.33
+    // export const pacStartSpeed = maxSpeedStart * 0.8
+    // export const ghostSpeedStart = maxSpeedStart * 0.75
+    
+    // export const pacStart = {
+    //     name: "pacman",
+    //     x: startingX,
+    //     y: startingY,
+    //     speed: pacStartSpeed,
+    //     direction: "",
+    //     nextDirection: "",
+    //     prevX: 0,
+    //     prevY: 0,
+    //     started: false,
+    //     aboutToStart: true,
+    //     lastChangeCoordinates: [],
+    //     div: document.getElementById("pacman")
+    // }
+    
