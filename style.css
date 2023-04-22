@@ -136,23 +136,23 @@ body {
 }
 
 .city {
-    position: absolute;
+    position: relative;
     background: url(img/city.png);
     background-size: 150px;
     width: 150px;
     height: 150px;
-    left: 65%;
-    top: 458px;
+    left: 75%;
+    top: 350px;
     
 }
 
 .man {
-    position: absolute;
+    position: relative;
     background: url(img/man.png);
     background-size: 20px;
     width: 20px;
     height: 40px;
     left: 49%;
-    top: 568px;
+    top: 498px;
     
 }
