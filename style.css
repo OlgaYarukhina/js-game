@@ -142,6 +142,17 @@ body {
     width: 150px;
     height: 150px;
     left: 80%;
-    top: 72%;
+    top: 330px;
+    
+}
+
+.man {
+    position: relative;
+    background: url(img/man.png);
+    background-size: 30px;
+    width: 30px;
+    height: 60px;
+    left: 45%;
+    top: 480px;
     
 }
