@@ -130,3 +130,14 @@ body {
     font-size: 2rem;
     font-weight: 400;
 }
+
+.city {
+    position: relative;
+    background: url(img/city.png);
+    background-size: 100px;
+    width: 100px;
+    height: 100px;
+    left: 50%;
+    top: 70%;
+    
+}
