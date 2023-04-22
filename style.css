@@ -22,8 +22,8 @@ body {
 
 .game-details {
     width: 100%;
-    border-bottom: 1px solid #c6c9cb;
-    background-color: #0f9b50;
+    border-bottom: 1px solid #7f8182;
+    background-color:  #232c3c;
     font-size: 1rem;
     font-weight: 200;
     padding: 15px 20px;
@@ -72,14 +72,18 @@ body {
 }
 
 .btnPause {
-    background-color: #2cb514;
-    border: 1px solid #429a12;
+    background-color:  #0b1019;
+    border: 1px solid #52624a;
+    color: azure;
+    padding: 10px;
+    font-size: 1rem;
+    font-weight: 200;
     width: 50%;
     height: 100%;
 }
 
 .btnPause:hover {
-    background-color: #3e8e41;
+    background-color: #667d67;
   }
 
 #start, #win, #gameOver {
@@ -134,10 +138,10 @@ body {
 .city {
     position: relative;
     background: url(img/city.png);
-    background-size: 100px;
-    width: 100px;
-    height: 100px;
-    left: 60%;
-    top: 80%;
+    background-size: 150px;
+    width: 150px;
+    height: 150px;
+    left: 80%;
+    top: 72%;
     
 }
