@@ -9,7 +9,7 @@ ball1.style.border = '1px solid white'
 
 const position = {
     x: 0,
-    y: -100,
+    y: 0,
     dx: 1,
     dy: 1,
     speed: 5,
@@ -34,7 +34,7 @@ ball.style.backgroundColor = 'red';
 ball.style.width = '50px';
 ball.style.height = '50px';
 ball.style.borderRadius = '50%';
-ball.style.position = 'relative';
+ball.style.position = 'absolute';
 ball.style.display = 'flex'
 
 
@@ -43,7 +43,7 @@ ball1.style.backgroundColor = 'green';
 ball1.style.width = '30px';
 ball1.style.height = '30px';
 ball1.style.borderRadius = '50%';
-ball1.style.position = 'relative';
+ball1.style.position = 'absolute';
 ball1.style.display = 'flex'
 
 
@@ -74,13 +74,13 @@ function animation() {
         if (position.x > 720 || position.x < 0) {
             position.dx *= -1;
         }
-        if (position.y > 280 || position.y < -200) {
+        if (position.y > 500 || position.y < 0) {
             position.dy *= -1;
         }
         if (position1.x1 > 720 || position1.x1 < 0) {
             position1.dx1 *= -1;
         }
-        if (position1.y1 > 290 || position1.y1 < 0) {
+        if (position1.y1 > 500 || position1.y1 < 0) {
             position1.dy1 *= -1;
         }
     
