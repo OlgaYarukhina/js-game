@@ -8,7 +8,7 @@ ball1.style.border = '1px solid white'
 
 
 const position = {
-    x: 0,
+    x: 50,
     y: 0,
     dx: 1,
     dy: 1,
@@ -35,7 +35,6 @@ ball.style.width = '50px';
 ball.style.height = '50px';
 ball.style.borderRadius = '50%';
 ball.style.position = 'absolute';
-ball.style.display = 'flex'
 
 
 gm.append(ball1);
@@ -44,14 +43,8 @@ ball1.style.width = '30px';
 ball1.style.height = '30px';
 ball1.style.borderRadius = '50%';
 ball1.style.position = 'absolute';
-ball1.style.display = 'flex'
-
-
 
 let mover = requestAnimationFrame(animation);
-
-
-
 
 function gameHit(){
 position.score++;
