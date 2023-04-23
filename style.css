@@ -143,7 +143,7 @@ body {
     height: 150px;
     left: 75%;
     top: 390px;
-    
+  
 }
 
 .man {
@@ -154,5 +154,11 @@ body {
     height: 40px;
     left: 49%;
     top: 348px;
+ 
     
 }
+
+.cloud {
+    position: relative;
+    font-size: 2em;
+  }
