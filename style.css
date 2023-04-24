@@ -87,7 +87,7 @@ body {
     background-color: #667d67;
   }
 
-#start, #win, #gameOver {
+#init-menu, #win, #gameOver {
     color: #090909;
     position: fixed;
     top: 20%;
@@ -96,7 +96,7 @@ body {
     text-align: center;
 }
 
-#start a, #win a, #gameOver a {
+#init-menu a, #win a, #gameOver a {
     background-color: #090909;
     color: #fdf9fb;
     text-decoration: none;
@@ -110,7 +110,7 @@ body {
     display: inline-block;
 }
 
-#start a:hover, #win a:hover #gameOver a:hover { background-color: #cf10bb; border-color: #090909; color: rgb(20, 22, 22);}
+#init-menu a:hover, #win a:hover #gameOver a:hover { background-color: #cf10bb; border-color: #090909; color: rgb(20, 22, 22);}
 
 .story {
     border-width: 1px;

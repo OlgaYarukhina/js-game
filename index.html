@@ -12,41 +12,40 @@
 </head>
 
 <body class="text-bg-warning">
-    <div id="start" style="display:none">
+    <div id="init-menu" style="display:block">
         <h1>Emergency Forecast</h1>
         <div class="story">
             <p>As a result of global warming, water from the oceans began to evaporate rapidly. Your task is to save the city from flooding.</p>
         </div>
         <br>
-        <a href="#" onclick="onTapGo()">Play</a>
+        <a href="#" onclick="play()">Play</a>
     </div>
 
     <div id="gameOver" style="display:none">
         <h1>Game Over</h1>
         <br>
-        <a href="#" onclick="onTapGo()">Try again</a>
+        <a href="#" onclick="play()">Try again</a>
     </div>
 
     <div id="win" style="display:none">
         <h1>YOU SAVED THE WORLD!</h1>
         <h1 class="score">Score: 00:00</h1>
         <br>
-        <a href="#" onclick="onTapGo()">Play again</a>
+        <a href="#" onclick="play()">Play again</a>
     </div>
 
 
 
-    <div class="game" style="display: block;">
+    <div id="game" class="game" style="display: none;">
         <div class="game-details">
             <span class="highScore">Hight Score</span>
             <span class="gameName">Emergency Forecast</span>
             <span class="lifes">Lifes</span>
         </div>
 
-        <div class="play-board" id = "game">
+        <div class="play-board" id="game-board">
             <div class="city"></div>
-            <div class="man"></div>
-          
+            <div id="player" class="man"></div>
         </div>
 
         <div class="buttons">
