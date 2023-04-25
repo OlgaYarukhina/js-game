@@ -1,3 +1,5 @@
+const timeLabel = document.getElementById("timer");
+
 //player
 const player = document.getElementById('player');
 const playerSpeed = 1;
@@ -36,6 +38,11 @@ const cloudDownShift = 5;
 const min = 5000;
 const max = 10000;
 let clouds = []
+const ColorState = {
+  NORMAL: 'gray',
+  DARK: 'green',
+  STORM: 'blue'
+};
 class Cloud {
   constructor(html, x, y) {
     this.html = html;
@@ -45,23 +52,23 @@ class Cloud {
     this.isRightDirection = true;
     this.state = ColorState.NORMAL;
 
-    // set up timer to change cloud state
-    this.timer = setInterval(() => {
-      if (this.state === ColorState.NORMAL) {
-        this.state = ColorState.DARK;
-      } else if (this.state === ColorState.DARK) {
-        this.state = ColorState.STORM;
-      } else {
-        // do some action for storm state
-        console.log("Storm state - do some action");
+    // set up timerValue to change cloud state
+    // this.timerValue = setInterval(() => {
+    //   if (this.state === ColorState.NORMAL && isPlaying) {
+    //     this.state = ColorState.DARK;
+    //   } else if (this.state === ColorState.DARK && isPlaying) {
+    //     this.state = ColorState.STORM;
+    //   } else if (isPlaying) {
+    //     // do some action for storm state
+    //     console.log("Storm state - do some action");
         
-        // change back to normal state after action is done
-        this.state = ColorState.NORMAL;
-      }
+    //     // change back to normal state after action is done
+    //     this.state = ColorState.NORMAL;
+    //   }
       
-      // update cloud color based on state
-      this.html.style.backgroundColor = this.state;
-    }, this.interval); 
+    //   // update cloud color based on state
+    //   this.html.style.backgroundColor = this.state;
+    // }, this.interval); 
   }
 
   update(cloud, index, f){
@@ -88,7 +95,15 @@ class Cloud {
         cloud.html.style.top = `${cloud.y}%`;
       }
     }
-    if (cloud.y > 100-cloudDownShift*3){
+    if (cloud.y > 60){
+      this.state = ColorState.STORM
+      this.html.style.backgroundColor = this.state;
+      //logic
+    } else if (cloud.y > 30){
+      this.state = ColorState.DARK
+      this.html.style.backgroundColor = this.state;
+    } 
+    if (cloud.y > 100-cloudDownShift*5){
       live--;
       console.log(live);
       if (live <= 0){
@@ -100,23 +115,20 @@ class Cloud {
     }
   }
 }
-const ColorState = {
-  NORMAL: 'gray',
-  DARK: 'green',
-  STORM: 'blue'
-};
 
 function shootBullet(){
-  const bullet = document.createElement('div');
-  bullet.style.position = 'absolute';
-  bullet.style.top = '100%';
-  bullet.style.left = `${playerX}%`;
-  bullet.style.backgroundColor = 'aqua';
-  bullet.innerText = "OO";
-  bulletObj = new Bullet(bullet, 100)
-  bullets.push(bulletObj);
-  console.log(bullets)
-  gameBoard.appendChild(bullet);
+  if(isPlaying){
+    const bullet = document.createElement('div');
+    bullet.style.position = 'absolute';
+    bullet.style.top = '100%';
+    bullet.style.left = `${playerX}%`;
+    bullet.style.backgroundColor = 'aqua';
+    bullet.innerText = "OO";
+    bulletObj = new Bullet(bullet, 100)
+    bullets.push(bulletObj);
+    console.log(bullets)
+    gameBoard.appendChild(bullet);
+  }
 }
 
 function gameOver(){
@@ -125,6 +137,9 @@ function gameOver(){
 
 // Define the game loop
 function gameLoop() {
+  timerValue = Date.now() - gameStartTime - timeOnPause;
+  timeLabel.innerHTML = `${180000-timerValue}`
+  console.log(timerValue)
   // Update the player's position
   if (isMovement){
     if (isRightMovement){
@@ -162,39 +177,44 @@ function gameLoop() {
   });
   
   // Request the next frame of the game loop
-  requestAnimationFrame(gameLoop);
+  if(isPlaying){
+    requestAnimationFrame(gameLoop);
+  }
 }
 
 let spawnSpeed = 3000;
 let gameStartTime = 0;
+let timeOnPause = 0;
+let timerValue = 0;
 
 function updateSpawnSpeed() {
-  const gameDuration = Date.now() - gameStartTime;
-  console.log(gameDuration)
-  if (gameDuration > 30000) { // increase spawn speed after 30 seconds
+  console.log(timerValue)
+  if (timerValue > 30000) { // increase spawn speed after 30 seconds
     spawnSpeed = 1000;
-  } else if (gameDuration > 60000) { // increase spawn speed after 1 minute
+  } else if (timerValue > 60000) { // increase spawn speed after 1 minute
     spawnSpeed = 500;
-  } else if (gameDuration > 120000) { // increase spawn speed after 2 minute
+  } else if (timerValue > 120000) { // increase spawn speed after 2 minute
     spawnSpeed = 50;
   } 
 }
 
 function spawnCloud() {
-  const cloud = document.createElement('div');
-  let x = Math.floor(Math.random() * 90)
-  cloud.style.position = 'absolute';
-  cloud.style.top = '0%';
-  cloud.style.left = `${x}%`;
-  cloud.style.backgroundColor = 'aqua';
-  cloud.innerText = "OO";
-  cloudObj = new Cloud(cloud, x, 0)
-  clouds.push(cloudObj);
-  console.log(clouds)
-  gameBoard.appendChild(cloud);
-  
-  // Schedule the next cloud spawn
-  updateSpawnSpeed()
+  if(isPlaying){
+    const cloud = document.createElement('div');
+    let x = Math.floor(Math.random() * 90)
+    cloud.style.position = 'absolute';
+    cloud.style.top = '0%';
+    cloud.style.left = `${x}%`;
+    cloud.style.backgroundColor = 'aqua';
+    cloud.innerText = "OO";
+    cloudObj = new Cloud(cloud, x, 0)
+    clouds.push(cloudObj);
+    console.log(clouds)
+    gameBoard.appendChild(cloud);
+    
+    // Schedule the next cloud spawn
+    updateSpawnSpeed()
+  }
   const nextSpawnTime = Date.now() + spawnSpeed;
   if(!isGameEnded){
     setTimeout(spawnCloud, nextSpawnTime - Date.now());

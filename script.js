@@ -5,6 +5,7 @@ const game = document.getElementById("game");
 const pauseMenu = document.getElementById("pause-menu");
 const gameOverMenu = document.getElementById("game-over-menu");
 
+
 //game settings
 let isGameEnded = false;
 let isPlaying = false;
@@ -22,16 +23,20 @@ function activateGameUI(){
   console.log(screenHeight-screenHeight*0.07-30)
 }
 
+let pauseStart = 0;
+
 const pause = () => {
   if (isPlaying) {
-      isPlaying = false;
-      //clearInterval(timerId);
-      rAFId = cancelAnimationFrame(rAFId);
+    pauseStart = Date.now()
+    isPlaying = false;
+    //clearInterval(timerId);
+    //rAFId = cancelAnimationFrame(rAFId);
       
   } else if (!isPlaying) {
-      isPlaying = true;
-     //timerId = setInterval(timerCountDown, 1000);
-      rAFId = requestAnimationFrame(gameLoop);
+    timeOnPause += Date.now() - pauseStart
+    isPlaying = true;
+    //timerId = setInterval(timerCountDown, 1000);
+    requestAnimationFrame(gameLoop);
   }
 }
 
