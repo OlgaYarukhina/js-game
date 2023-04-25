@@ -122,6 +122,13 @@ body {
     padding: 10px;
 }
 
+.rules {
+    color: #52624a;
+    font-size: 0.8rem;
+    font-weight: 100;
+    margin: 30px;
+}
+
 
 .gameOver {
     background: linear-gradient(45deg, rgb(226, 7, 29), rgb(34, 1, 11));
