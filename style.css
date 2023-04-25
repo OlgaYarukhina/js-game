@@ -73,7 +73,7 @@ body {
 }
 
 .btnPause {
-    background-color:  #0b1019;
+    background-color:    #232c3c;
     border: 1px solid #52624a;
     color: azure;
     padding: 10px;
@@ -84,7 +84,7 @@ body {
 }
 
 .btnPause:hover {
-    background-color: #667d67;
+    background-color:   #53688c;
   }
 
 #init-menu, #win, #gameOver {

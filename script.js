@@ -7,26 +7,46 @@ const gameOverMenu = document.getElementById("game-over-menu");
 
 //game settings
 let isGameEnded = false;
-let isGamePaused = false;
+let isPlaying = false;
 
 //screen size
 const screenHeight = window.innerHeight;
 const screenWidth = window.innerWidth;
 
+let rAFId;
 
 function activateGameUI(){
   initMenu.style.display = "none";
   game.style.display = "block";
-  //body.classList = '';
-  //
   console.log("bullet init height - fixed")
   console.log(screenHeight-screenHeight*0.07-30)
 }
 
+const pause = () => {
+  if (isPlaying) {
+      isPlaying = false;
+      //clearInterval(timerId);
+      rAFId = cancelAnimationFrame(rAFId);
+      
+  } else if (!isPlaying) {
+      isPlaying = true;
+     //timerId = setInterval(timerCountDown, 1000);
+      rAFId = requestAnimationFrame(gameLoop);
+  }
+}
+
+const restart = () => {
+      isPlaying = false;
+      location.reload();
+      rAFId = requestAnimationFrame(gameLoop);
+}
+
+
 function play(){
+  isPlaying = true;
   activateGameUI();
   activateSpawner();
-  requestAnimationFrame(gameLoop);
+  rAFId = requestAnimationFrame(gameLoop);
 }
 
 
