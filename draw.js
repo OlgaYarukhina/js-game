@@ -19,6 +19,15 @@ class Bullet {
     this.html = html;
     this.y = y;
   }
+
+  update(bullet, index){
+    bullet.y -= bulletSpeed
+    if (bullet.y < bulletDistance) {
+      bullets.splice(index, 1); // remove bullet from the array
+      bullet.html.remove(); // remove bullet's HTML element from the game board  
+    }
+    bullet.html.style.top = `${bullet.y}%`;
+  }
 }
 
 //clouds
@@ -54,44 +63,8 @@ class Cloud {
       this.html.style.backgroundColor = this.state;
     }, this.interval); 
   }
-}
-const ColorState = {
-  NORMAL: 'gray',
-  DARK: 'green',
-  STORM: 'blue'
-};
 
-function shootBullet(){
-  const bullet = document.createElement('div');
-  bullet.style.position = 'absolute';
-  bullet.style.top = '100%';
-  bullet.style.left = `${playerX}%`;
-  bullet.style.backgroundColor = 'aqua';
-  bullet.innerText = "OO";
-  bulletObj = new Bullet(bullet, 100)
-  bullets.push(bulletObj);
-  console.log(bullets)
-  gameBoard.appendChild(bullet);
-}
-
-// Define the game loop
-function gameLoop() {
-  // Update the player's position
-  if (isMovement){
-    if (isRightMovement){
-      if (playerX + playerSpeed < 95){
-        playerX += playerSpeed;
-      }
-    } else {
-      if ( playerX - playerSpeed > 0){
-        playerX -= playerSpeed;
-      }
-    }
-  }
-  player.style.left = `${playerX}%`;
-
-  // Update clouds
-  clouds.forEach((cloud, index) => {
+  update(cloud, index, f){
     if (cloud.isRightDirection){
       if (cloud.x + cloudSpeed < 95){
         cloud.x += cloudSpeed;
@@ -119,22 +92,61 @@ function gameLoop() {
       live--;
       console.log(live);
       if (live <= 0){
-        //game over
+        f()
       }
       clouds.splice(index, 1); // remove cloud from the array
       cloud.html.remove(); // remove cloud's HTML element from the game board  
     
     }
+  }
+}
+const ColorState = {
+  NORMAL: 'gray',
+  DARK: 'green',
+  STORM: 'blue'
+};
+
+function shootBullet(){
+  const bullet = document.createElement('div');
+  bullet.style.position = 'absolute';
+  bullet.style.top = '100%';
+  bullet.style.left = `${playerX}%`;
+  bullet.style.backgroundColor = 'aqua';
+  bullet.innerText = "OO";
+  bulletObj = new Bullet(bullet, 100)
+  bullets.push(bulletObj);
+  console.log(bullets)
+  gameBoard.appendChild(bullet);
+}
+
+function gameOver(){
+  console.log("game over")
+}
+
+// Define the game loop
+function gameLoop() {
+  // Update the player's position
+  if (isMovement){
+    if (isRightMovement){
+      if (playerX + playerSpeed < 95){
+        playerX += playerSpeed;
+      }
+    } else {
+      if ( playerX - playerSpeed > 0){
+        playerX -= playerSpeed;
+      }
+    }
+  }
+  player.style.left = `${playerX}%`;
+
+  // Update clouds
+  clouds.forEach((cloud, index) => {
+    cloud.update(cloud, index, gameOver)
   })
 
   // Update bullets
   bullets.forEach((bullet, index) => {
-    bullet.y -= bulletSpeed
-    if (bullet.y < bulletDistance) {
-      bullets.splice(index, 1); // remove bullet from the array
-      bullet.html.remove(); // remove bullet's HTML element from the game board  
-    }
-    bullet.html.style.top = `${bullet.y}%`;
+    bullet.update(bullet, index)
   });
 
   // React on collisions 
