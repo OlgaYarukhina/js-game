@@ -5,37 +5,23 @@ const game = document.getElementById("game");
 const pauseMenu = document.getElementById("pause-menu");
 const gameOverMenu = document.getElementById("game-over-menu");
 
-
-//game settings
-let isGameEnded = false;
 let isPlaying = false;
-
+let isGameEnded = false;
+let pauseStart = 0;
 //screen size
-const screenHeight = window.innerHeight;
-const screenWidth = window.innerWidth;
+//const screenHeight = window.innerHeight;
+//const screenWidth = window.innerWidth;
 
 let rAFId;
 
-function activateGameUI(){
-  initMenu.style.display = "none";
-  game.style.display = "block";
-  console.log("bullet init height - fixed")
-  console.log(screenHeight-screenHeight*0.07-30)
-}
-
-let pauseStart = 0;
 
 const pause = () => {
   if (isPlaying) {
     pauseStart = Date.now()
     isPlaying = false;
-    //clearInterval(timerId);
-    //rAFId = cancelAnimationFrame(rAFId);
-      
   } else if (!isPlaying) {
     timeOnPause += Date.now() - pauseStart
     isPlaying = true;
-    //timerId = setInterval(timerCountDown, 1000);
     requestAnimationFrame(gameLoop);
   }
 }
@@ -43,20 +29,41 @@ const pause = () => {
 const restart = () => {
       isPlaying = false;
       location.reload();
-      rAFId = requestAnimationFrame(gameLoop);
 }
 
 
-function play(){
+const play = () => {
   isPlaying = true;
-  activateGameUI();
+  initMenu.style.display = "none";
+  game.style.display = "block";
   activateSpawner();
   rAFId = requestAnimationFrame(gameLoop);
 }
 
 
+const handleGameOver = () => {
+  isPlaying = false;
+  let gameOver = document.getElementById("gameOver")
+  game.style.display = "none";
+  gameOver.style.display = "block";
+}
 
 
+const handleWin = () => {
+  isPlaying = false;
+  let win = document.getElementById("win")
+  game.style.display = "none";
+  win.style.display = "block";
+  scoreElement.innerText = `Score: ${numberOfBrokenClouds} clouds`;
+  checkScore();
+}
+
+const checkScore = () => {
+
+}
+
+  //clearInterval(timerId);
+    //rAFId = cancelAnimationFrame(rAFId);
 // const gm = document.getElementById('game-board');
 
 // const ball = document.createElement('div');

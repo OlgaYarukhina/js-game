@@ -1,18 +1,15 @@
 const timeLabel = document.getElementById("timer");
-
-//player
 const player = document.getElementById('player');
 const playerSpeed = 1;
 
 let playerX = 50;
 let currentScore = 0;
 let live = 3;
-let maxScore = 0;
+let hightScore = 0;
 
 let isMovement = false;
 let isRightMovement = false;
 
-//bullets
 const bulletDistance = 15;
 const bulletSpeed = 2;
 let bullets = []
@@ -32,9 +29,9 @@ class Bullet {
   }
 }
 
-//clouds
 const cloudSpeed = 1;
 const cloudDownShift = 5;
+let numberOfBrokenClouds = 0;
 const min = 5000;
 const max = 10000;
 let clouds = []
@@ -50,28 +47,10 @@ class Cloud {
     this.y = y;
     this.interval = Math.floor(Math.random() * (max - min + 1)) + min;
     this.isRightDirection = true;
-    this.state = ColorState.NORMAL;
-
-    // set up timerValue to change cloud state
-    // this.timerValue = setInterval(() => {
-    //   if (this.state === ColorState.NORMAL && isPlaying) {
-    //     this.state = ColorState.DARK;
-    //   } else if (this.state === ColorState.DARK && isPlaying) {
-    //     this.state = ColorState.STORM;
-    //   } else if (isPlaying) {
-    //     // do some action for storm state
-    //     console.log("Storm state - do some action");
-        
-    //     // change back to normal state after action is done
-    //     this.state = ColorState.NORMAL;
-    //   }
-      
-    //   // update cloud color based on state
-    //   this.html.style.backgroundColor = this.state;
-    // }, this.interval); 
+    this.state = ColorState.NORMAL; 
   }
 
-  update(cloud, index, f){
+  update(cloud, index){
     if (cloud.isRightDirection){
       if (cloud.x + cloudSpeed < 95){
         cloud.x += cloudSpeed;
@@ -106,8 +85,8 @@ class Cloud {
     if (cloud.y > 100-cloudDownShift*5){
       live--;
       console.log(live);
-      if (live <= 0){
-        f()
+      if (live === 0){
+        handleGameOver()
       }
       clouds.splice(index, 1); // remove cloud from the array
       cloud.html.remove(); // remove cloud's HTML element from the game board  
@@ -124,22 +103,23 @@ function shootBullet(){
     bullet.style.left = `${playerX}%`;
     bullet.style.backgroundColor = 'aqua';
     bullet.innerText = "OO";
-    bulletObj = new Bullet(bullet, 100)
+    let bulletObj = new Bullet(bullet, 100)
     bullets.push(bulletObj);
     console.log(bullets)
     gameBoard.appendChild(bullet);
   }
 }
 
-function gameOver(){
-  console.log("game over")
-}
 
 // Define the game loop
 function gameLoop() {
   timerValue = Date.now() - gameStartTime - timeOnPause;
-  timeLabel.innerHTML = `${180000-timerValue}`
+  timeLabel.innerHTML = `${60000-timerValue}`
   console.log(timerValue)
+
+  if (60000-timerValue === 0){
+    handleWin() 
+  }
   // Update the player's position
   if (isMovement){
     if (isRightMovement){
@@ -156,7 +136,7 @@ function gameLoop() {
 
   // Update clouds
   clouds.forEach((cloud, index) => {
-    cloud.update(cloud, index, gameOver)
+    cloud.update(cloud, index)
   })
 
   // Update bullets
@@ -172,6 +152,7 @@ function gameLoop() {
         cloud.html.remove(); // remove cloud's HTML element from the game board
         bullets.splice(bi, 1); // remove bullet from the array
         bullet.html.remove(); // remove bullet's HTML element from the game board   
+        numberOfBrokenClouds++;
       }
     });
   });
@@ -241,3 +222,22 @@ function isColliding(el1, el2) {
 
 
   
+
+
+    // set up timerValue to change cloud state
+    // this.timerValue = setInterval(() => {
+    //   if (this.state === ColorState.NORMAL && isPlaying) {
+    //     this.state = ColorState.DARK;
+    //   } else if (this.state === ColorState.DARK && isPlaying) {
+    //     this.state = ColorState.STORM;
+    //   } else if (isPlaying) {
+    //     // do some action for storm state
+    //     console.log("Storm state - do some action");
+        
+    //     // change back to normal state after action is done
+    //     this.state = ColorState.NORMAL;
+    //   }
+      
+    //   // update cloud color based on state
+    //   this.html.style.backgroundColor = this.state;
+    // }, this.interval);
