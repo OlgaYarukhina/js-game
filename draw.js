@@ -12,6 +12,33 @@ let maxScore = 0;
 let isMovement = false;
 let isRightMovement = false;
 
+//lightnings
+const lightningSpeed = 1;
+let lightnings = []
+class Lightning{
+  constructor(html, x, y) {
+    this.html = html;
+    this.x = x;
+    this.y = y;
+    this.isRightDiagonal = Math.random() > 0.5;
+  }
+
+  update(lightning, index){
+    lightning.y += lightningSpeed
+    if (this.isRightDiagonal){
+      lightning.x += lightningSpeed
+    } else {
+      lightning.x -= lightningSpeed
+    }
+    if (lightning.y > 95 || lightning.x < 5 || lightning.x > 95) {
+      lightnings.splice(index, 1); // remove bullet from the array
+      lightning.html.remove(); // remove bullet's HTML element from the game board  
+    }
+    lightning.html.style.top = `${lightning.y}%`;
+    lightning.html.style.left = `${lightning.x}%`;
+  }
+}
+
 //bullets
 const bulletDistance = 15;
 const bulletSpeed = 2;
@@ -51,6 +78,7 @@ class Cloud {
     this.interval = Math.floor(Math.random() * (max - min + 1)) + min;
     this.isRightDirection = true;
     this.state = ColorState.NORMAL;
+    this.isLightened = false;
 
     // set up timerValue to change cloud state
     // this.timerValue = setInterval(() => {
@@ -98,7 +126,14 @@ class Cloud {
     if (cloud.y > 60){
       this.state = ColorState.STORM
       this.html.style.backgroundColor = this.state;
-      //logic
+      //call with random time as interval ?
+      if(!this.isLightened){
+        this.isLightened = true
+        setTimeout(
+          function() {
+            shootLightning(cloud)
+          }, Math.random()*4000);
+      }
     } else if (cloud.y > 30){
       this.state = ColorState.DARK
       this.html.style.backgroundColor = this.state;
@@ -114,6 +149,19 @@ class Cloud {
     
     }
   }
+}
+
+function shootLightning(cloud){
+  const lightning = document.createElement('div');
+  lightning.style.position = 'absolute';
+  lightning.style.top = `${cloud.y}%`;
+  lightning.style.left = `${cloud.x}%`;
+  lightning.style.backgroundColor = 'gold';
+  lightning.innerText = "OO";
+  var lightningObj = new Lightning(lightning, cloud.x, cloud.y)
+  lightnings.push(lightningObj);
+  console.log(lightning)
+  gameBoard.appendChild(lightning);
 }
 
 function shootBullet(){
@@ -162,6 +210,19 @@ function gameLoop() {
   // Update bullets
   bullets.forEach((bullet, index) => {
     bullet.update(bullet, index)
+  });
+
+  // Update lightnings
+  lightnings.forEach((lightning, index) => {
+    lightning.update(lightning, index)
+    if(isColliding(player, lightning.html)){
+      lightnings.splice(index, 1);
+      lightning.html.remove(); 
+      live--;
+      if (live <= 0){
+        gameOver();
+      }
+    }
   });
 
   // React on collisions 
