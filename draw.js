@@ -62,125 +62,150 @@ const ColorState = {
 };
 
 function shootBullet(){
-    const bullet = document.createElement('div');
-    bullet.style.position = 'absolute';
-    bullet.style.top = '100%';
-    bullet.style.left = `${playerX}%`;
-    bullet.style.backgroundColor = 'aqua';
-    bullet.innerText = "OO";
-    bulletObj = new Bullet(bullet, 100)
-    bullets.push(bulletObj);
-    console.log(bullets)
-    gameBoard.appendChild(bullet);
-  }
-  
-  // Define the game loop
-  function gameLoop() {
-    // Update the player's position
-    if (isMovement){
-      if (isRightMovement){
-        if (playerX + playerSpeed < 95){
-          playerX += playerSpeed;
-        }
-      } else {
-        if ( playerX - playerSpeed > 0){
-          playerX -= playerSpeed;
-        }
+  const bullet = document.createElement('div');
+  bullet.style.position = 'absolute';
+  bullet.style.top = '100%';
+  bullet.style.left = `${playerX}%`;
+  bullet.style.backgroundColor = 'aqua';
+  bullet.innerText = "OO";
+  bulletObj = new Bullet(bullet, 100)
+  bullets.push(bulletObj);
+  console.log(bullets)
+  gameBoard.appendChild(bullet);
+}
+
+// Define the game loop
+function gameLoop() {
+  // Update the player's position
+  if (isMovement){
+    if (isRightMovement){
+      if (playerX + playerSpeed < 95){
+        playerX += playerSpeed;
+      }
+    } else {
+      if ( playerX - playerSpeed > 0){
+        playerX -= playerSpeed;
       }
     }
-    player.style.left = `${playerX}%`;
-  
-    // Update clouds
-    clouds.forEach((cloud, index) => {
-      if (cloud.isRightDirection){
-        if (cloud.x + cloudSpeed < 95){
-          cloud.x += cloudSpeed;
-          cloud.html.style.left = `${cloud.x}%`;
-        } else {
-          cloud.isRightDirection = false;
-          cloud.x -= cloudSpeed;
-          cloud.html.style.left = `${cloud.x}%`;
-          cloud.y += cloudDownShift;
-          cloud.html.style.top = `${cloud.y}%`;
-        }    
+  }
+  player.style.left = `${playerX}%`;
+
+  // Update clouds
+  clouds.forEach((cloud, index) => {
+    if (cloud.isRightDirection){
+      if (cloud.x + cloudSpeed < 95){
+        cloud.x += cloudSpeed;
+        cloud.html.style.left = `${cloud.x}%`;
       } else {
-        if (cloud.x - cloudSpeed > 0){
-          cloud.x -= cloudSpeed;
-          cloud.html.style.left = `${cloud.x}%`;
-        } else {
-          cloud.isRightDirection = true;
-          cloud.x += cloudSpeed;
-          cloud.html.style.left = `${cloud.x}%`;
-          cloud.y += cloudDownShift;
-          cloud.html.style.top = `${cloud.y}%`;
-        }
+        cloud.isRightDirection = false;
+        cloud.x -= cloudSpeed;
+        cloud.html.style.left = `${cloud.x}%`;
+        cloud.y += cloudDownShift;
+        cloud.html.style.top = `${cloud.y}%`;
+      }    
+    } else {
+      if (cloud.x - cloudSpeed > 0){
+        cloud.x -= cloudSpeed;
+        cloud.html.style.left = `${cloud.x}%`;
+      } else {
+        cloud.isRightDirection = true;
+        cloud.x += cloudSpeed;
+        cloud.html.style.left = `${cloud.x}%`;
+        cloud.y += cloudDownShift;
+        cloud.html.style.top = `${cloud.y}%`;
       }
-      if (cloud.y > 100-cloudDownShift*3){
-        live--;
-        console.log(live);
-        if (live <= 0){
-          //game over
-        }
-        clouds.splice(index, 1); // remove bullet from the array
-        cloud.html.remove(); // remove bullet's HTML element from the game board  
-     
+    }
+    if (cloud.y > 100-cloudDownShift*3){
+      live--;
+      console.log(live);
+      if (live <= 0){
+        //game over
       }
-    })
-  
-    // Update bullets
-    bullets.forEach((bullet, index) => {
-      bullet.y -= bulletSpeed
-      if (bullet.y < bulletDistance) {
-        bullets.splice(index, 1); // remove bullet from the array
-        bullet.html.remove(); // remove bullet's HTML element from the game board  
+      clouds.splice(index, 1); // remove cloud from the array
+      cloud.html.remove(); // remove cloud's HTML element from the game board  
+    
+    }
+  })
+
+  // Update bullets
+  bullets.forEach((bullet, index) => {
+    bullet.y -= bulletSpeed
+    if (bullet.y < bulletDistance) {
+      bullets.splice(index, 1); // remove bullet from the array
+      bullet.html.remove(); // remove bullet's HTML element from the game board  
+    }
+    bullet.html.style.top = `${bullet.y}%`;
+  });
+
+  // React on collisions 
+  bullets.forEach((bullet, bi) =>{
+    clouds.forEach((cloud, ci) =>{
+      if (isColliding(bullet.html, cloud.html)) {
+        clouds.splice(ci, 1); // remove cloud from the array
+        cloud.html.remove(); // remove cloud's HTML element from the game board
+        bullets.splice(bi, 1); // remove bullet from the array
+        bullet.html.remove(); // remove bullet's HTML element from the game board   
       }
-      bullet.html.style.top = `${bullet.y}%`;
     });
+  });
   
-    // React on collisions 
-    
-    // Request the next frame of the game loop
-    requestAnimationFrame(gameLoop);
+  // Request the next frame of the game loop
+  requestAnimationFrame(gameLoop);
+}
+
+let spawnSpeed = 3000;
+let gameStartTime = 0;
+
+function updateSpawnSpeed() {
+  const gameDuration = Date.now() - gameStartTime;
+  console.log(gameDuration)
+  if (gameDuration > 30000) { // increase spawn speed after 30 seconds
+    spawnSpeed = 1000;
+  } else if (gameDuration > 60000) { // increase spawn speed after 1 minute
+    spawnSpeed = 500;
+  } else if (gameDuration > 120000) { // increase spawn speed after 2 minute
+    spawnSpeed = 50;
+  } 
+}
+
+function spawnCloud() {
+  const cloud = document.createElement('div');
+  let x = Math.floor(Math.random() * 90)
+  cloud.style.position = 'absolute';
+  cloud.style.top = '0%';
+  cloud.style.left = `${x}%`;
+  cloud.style.backgroundColor = 'aqua';
+  cloud.innerText = "OO";
+  cloudObj = new Cloud(cloud, x, 0)
+  clouds.push(cloudObj);
+  console.log(clouds)
+  gameBoard.appendChild(cloud);
+  
+  // Schedule the next cloud spawn
+  updateSpawnSpeed()
+  const nextSpawnTime = Date.now() + spawnSpeed;
+  if(!isGameEnded){
+    setTimeout(spawnCloud, nextSpawnTime - Date.now());
   }
+}
   
-  let spawnSpeed = 3000;
-  let gameStartTime = 0;
-  
-  function updateSpawnSpeed() {
-    const gameDuration = Date.now() - gameStartTime;
-    console.log(gameDuration)
-    if (gameDuration > 30000) { // increase spawn speed after 30 seconds
-      spawnSpeed = 1000;
-    } else if (gameDuration > 60000) { // increase spawn speed after 1 minute
-      spawnSpeed = 500;
-    } else if (gameDuration > 120000) { // increase spawn speed after 2 minute
-      spawnSpeed = 50;
-    } 
-  }
-  
-  function spawnCloud() {
-    const cloud = document.createElement('div');
-    let x = Math.floor(Math.random() * 90)
-    cloud.style.position = 'absolute';
-    cloud.style.top = '0%';
-    cloud.style.left = `${x}%`;
-    cloud.style.backgroundColor = 'aqua';
-    cloud.innerText = "OO";
-    cloudObj = new Cloud(cloud, x, 0)
-    clouds.push(cloudObj);
-    console.log(clouds)
-    gameBoard.appendChild(cloud);
-    
-    // Schedule the next cloud spawn
-    updateSpawnSpeed()
-    const nextSpawnTime = Date.now() + spawnSpeed;
-    if(!isGameEnded){
-      setTimeout(spawnCloud, nextSpawnTime - Date.now());
-    }
-  }
-  
-  function activateSpawner() {
-    gameStartTime = Date.now();
-    spawnCloud();
-  }
+function activateSpawner() {
+  gameStartTime = Date.now();
+  spawnCloud();
+}
+
+// Define a function to check for collision between two div elements
+function isColliding(el1, el2) {
+  // Get the bounding boxes of the elements
+  const rect1 = el1.getBoundingClientRect();
+  const rect2 = el2.getBoundingClientRect();
+
+  // Check for overlap between the bounding boxes
+  return !(rect1.right < rect2.left || 
+           rect1.left > rect2.right || 
+           rect1.bottom < rect2.top || 
+           rect1.top > rect2.bottom);
+}
+
+
   
