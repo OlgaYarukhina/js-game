@@ -33,7 +33,10 @@
 
     <div id="win" style="display:none">
         <h1>YOU SAVED THE WORLD!</h1>
-        <h1 class="score">Score: 0</h1>
+        <div class="story" id="score">
+            <p>Score: 0</p>
+        </div>
+       
         <br>
         <a href="#" onclick="restart()">Play again</a>
     </div>
@@ -42,10 +45,9 @@
 
     <div id="game" class="game" style="display: none;">
         <div class="game-details">
-            <span class="highScore">Hight Score</span>
-            <span class="gameName">Emergency Forecast</span>
-            <span id="timer" class="lifes"></span>
-            <span class="lifes">Lifes</span>
+            <span id="highScore"></span>
+            <span id="timer"></span>
+            <span id="lifes"></span>
         </div>
 
         <div class="play-board" id="game-board">

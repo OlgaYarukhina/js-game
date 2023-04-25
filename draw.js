@@ -1,16 +1,17 @@
 const timeLabel = document.getElementById("timer");
+const lifesLabel = document.getElementById("lifes");
+const highScoreLabel = document.getElementById("highScore");
 const player = document.getElementById('player');
 const playerSpeed = 1;
 
 let playerX = 50;
 let currentScore = 0;
 let live = 3;
-let hightScore = 0;
+
 
 let isMovement = false;
 let isRightMovement = false;
 
-//lightnings
 const lightningSpeed = 1;
 let lightnings = []
 class Lightning{
@@ -68,6 +69,8 @@ const ColorState = {
   DARK: 'green',
   STORM: 'blue'
 };
+
+
 class Cloud {
   constructor(html, x, y) {
     this.html = html;
@@ -78,24 +81,6 @@ class Cloud {
     this.state = ColorState.NORMAL; 
     this.state = ColorState.NORMAL;
     this.isLightened = false;
-
-    // set up timerValue to change cloud state
-    // this.timerValue = setInterval(() => {
-    //   if (this.state === ColorState.NORMAL && isPlaying) {
-    //     this.state = ColorState.DARK;
-    //   } else if (this.state === ColorState.DARK && isPlaying) {
-    //     this.state = ColorState.STORM;
-    //   } else if (isPlaying) {
-    //     // do some action for storm state
-    //     console.log("Storm state - do some action");
-        
-    //     // change back to normal state after action is done
-    //     this.state = ColorState.NORMAL;
-    //   }
-      
-    //   // update cloud color based on state
-    //   this.html.style.backgroundColor = this.state;
-    // }, this.interval); 
   }
 
   update(cloud, index){
@@ -179,15 +164,21 @@ function shootBullet(){
 }
 
 
+
 // Define the game loop
 function gameLoop() {
+  highScoreLabel.innerHTML = `High score: ${highScore}`
+  lifesLabel.innerHTML = `Lifes: ${live}`
   timerValue = Date.now() - gameStartTime - timeOnPause;
-  timeLabel.innerHTML = `${60000-timerValue}`
-  console.log(timerValue)
+  let time = 90000-timerValue;
+  let minutes  = Math.floor(time / 60000);
+  let seconds = (Math.floor(time/1000)) % 60;
+  minutes == 0 ? "00" : minutes < 10 ? "0" + minutes : minutes;
+  seconds = seconds < 10 ? "0" + seconds : seconds;
+  timeLabel.innerHTML = `${minutes} : ${seconds}`
 
-  if (60000-timerValue === 0){
-    handleWin() 
-  }
+  if (time <= 0) handleWin() 
+  
   // Update the player's position
   if (isMovement){
     if (isRightMovement){
@@ -322,3 +313,22 @@ function isColliding(el1, el2) {
     //   // update cloud color based on state
     //   this.html.style.backgroundColor = this.state;
     // }, this.interval);
+
+
+    // set up timerValue to change cloud state
+    // this.timerValue = setInterval(() => {
+    //   if (this.state === ColorState.NORMAL && isPlaying) {
+    //     this.state = ColorState.DARK;
+    //   } else if (this.state === ColorState.DARK && isPlaying) {
+    //     this.state = ColorState.STORM;
+    //   } else if (isPlaying) {
+    //     // do some action for storm state
+    //     console.log("Storm state - do some action");
+        
+    //     // change back to normal state after action is done
+    //     this.state = ColorState.NORMAL;
+    //   }
+      
+    //   // update cloud color based on state
+    //   this.html.style.backgroundColor = this.state;
+    // }, this.interval); 

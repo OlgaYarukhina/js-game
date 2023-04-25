@@ -2,17 +2,14 @@
 const initMenu = document.getElementById("init-menu");
 const gameBoard = document.getElementById("game-board");
 const game = document.getElementById("game");
-const pauseMenu = document.getElementById("pause-menu");
-const gameOverMenu = document.getElementById("game-over-menu");
+const scoreElement = document.getElementById("score");
+const highScoreElement = document.getElementById("highScore");
 
 let isPlaying = false;
 let isGameEnded = false;
 let pauseStart = 0;
-//screen size
-//const screenHeight = window.innerHeight;
-//const screenWidth = window.innerWidth;
 
-let rAFId;
+let highScore = localStorage.getItem("highScore") || 0;
 
 
 const pause = () => {
@@ -37,7 +34,7 @@ const play = () => {
   initMenu.style.display = "none";
   game.style.display = "block";
   activateSpawner();
-  rAFId = requestAnimationFrame(gameLoop);
+  requestAnimationFrame(gameLoop);
 }
 
 
@@ -59,7 +56,8 @@ const handleWin = () => {
 }
 
 const checkScore = () => {
-
+     highScore = numberOfBrokenClouds >= highScore ? numberOfBrokenClouds : highScore;
+     localStorage.setItem("highScore", highScore)
 }
 
   //clearInterval(timerId);
@@ -157,3 +155,7 @@ const checkScore = () => {
 // }
 
 //-----
+
+//screen size
+//const screenHeight = window.innerHeight;
+//const screenWidth = window.innerWidth;
