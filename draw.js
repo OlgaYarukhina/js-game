@@ -111,7 +111,8 @@ class Cloud {
     if (cloud.y > 40){
      // this.state = ColorState.STORM
      // this.html.style.backgroundColor = this.state;
-      this.className = 'cloudStorm';
+      this.html.classList.remove('cloudDark');
+      this.html.classList.add('cloudStorm');
 
 
       //call with random time as interval ?
@@ -125,7 +126,8 @@ class Cloud {
     } else if (cloud.y > 15){
      // this.state = ColorState.DARK
      // this.html.style.backgroundColor = this.state;
-      this.className = 'cloudDark';
+     this.html.classList.remove('cloudLight');
+     this.html.classList.add('cloudDark');
 
 
     } 
