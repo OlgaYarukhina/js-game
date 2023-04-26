@@ -56,7 +56,7 @@ class Bullet {
   }
 }
 
-const cloudSpeed = 1;
+const cloudSpeed = 0.5;
 const cloudDownShift = 5;
 let numberOfBrokenClouds = 0;
 const min = 5000;
