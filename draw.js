@@ -62,11 +62,11 @@ let numberOfBrokenClouds = 0;
 const min = 5000;
 const max = 10000;
 let clouds = [];
-const ColorState = {
-  NORMAL: 'gray',
-  DARK: 'green',
-  STORM: 'blue'
-};
+// const ColorState = {
+//   NORMAL: 'url(img/cloudLight.png)',
+//   DARK: 'green',
+//   STORM: 'blue'
+// };
 
 
 class Cloud {
@@ -76,8 +76,7 @@ class Cloud {
     this.y = y;
     this.interval = Math.floor(Math.random() * (max - min + 1)) + min;
     this.isRightDirection = true;
-    this.state = ColorState.NORMAL; 
-    this.state = ColorState.NORMAL;
+    this.className = 'cloudLight';
     this.isLightened = false;
   }
 
@@ -106,8 +105,11 @@ class Cloud {
       }
     }
     if (cloud.y > 40){
-      this.state = ColorState.STORM
-      this.html.style.backgroundColor = this.state;
+     // this.state = ColorState.STORM
+     // this.html.style.backgroundColor = this.state;
+      this.className = 'cloudStorm';
+
+
       //call with random time as interval ?
       if(!this.isLightened){
         this.isLightened = true
@@ -117,8 +119,11 @@ class Cloud {
           }, Math.random()*4000);
       }
     } else if (cloud.y > 15){
-      this.state = ColorState.DARK
-      this.html.style.backgroundColor = this.state;
+     // this.state = ColorState.DARK
+     // this.html.style.backgroundColor = this.state;
+      this.className = 'cloudDark';
+
+
     } 
     if (cloud.y > 100-cloudDownShift*7){
       live--;
@@ -139,11 +144,9 @@ class Cloud {
 function shootLightning(cloud){
   var lightningObj = new Lightning(lightning, cloud.x, cloud.y)
   const lightning = document.createElement('div');
-  lightning.style.position = 'absolute';
+  lightning.className = 'lightning';
   lightning.style.top = `${cloud.y}%`;
   lightning.style.left = `${cloud.x}%`;
-  lightning.style.backgroundColor = 'gold';
-  lightning.innerText = "OO";
   lightnings.push(lightningObj);
   gameBoard.appendChild(lightning);
 }
@@ -151,12 +154,11 @@ function shootLightning(cloud){
 function shootBullet(){
   if(isPlaying){
     const bullet = document.createElement('div');
-    let bulletObj = new Bullet(bullet, 100)
+    let bulletObj = new Bullet(bullet, 100);
+    bullet.className = 'bullet'
     bullet.style.position = 'absolute';
-    bullet.style.top = '100%';
+    bullet.style.top = '99%';
     bullet.style.left = `${playerX}%`;
-    bullet.style.backgroundColor = 'aqua';
-    bullet.innerText = "OO";
     bullets.push(bulletObj);
     gameBoard.appendChild(bullet);
   }
@@ -252,11 +254,7 @@ function spawnCloud() {
   if(isPlaying){
     const cloud = document.createElement('div');
     let x = Math.floor(Math.random() * 90)
-    cloud.style.position = 'absolute';
-    cloud.style.top = '0%';
-    cloud.style.left = `${x}%`;
-    cloud.style.backgroundColor = 'aqua';
-    cloud.innerText = "OO";
+    cloud.className = 'cloudLight';
     cloudObj = new Cloud(cloud, x, 0)
     clouds.push(cloudObj);
     gameBoard.appendChild(cloud);

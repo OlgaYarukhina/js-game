@@ -174,3 +174,44 @@ body {
     font-weight: 450;
     color: #3d596d;
 }
+
+.cloudLight {
+    background: url(img/cloudLight.png);
+    background-size: 50px;
+    width: 50px;
+    height: 30px;
+    position: absolute;
+    top: 0%;
+    left: 10px;
+}
+
+.cloudDark {
+    background: url(img/cloudDark.png);
+    background-size: 50px;
+    width: 50px;
+    height: 30px;
+    position: absolute;
+}
+
+.cloudDark {
+    background: url(img/cloudStorm.png);
+    background-size: 50px;
+    width: 50px;
+    height: 30px;
+    position: absolute;
+}
+
+.lightning {
+    position: absolute;
+    background: url(img/lighting.png);
+    background-size: 60px;
+    width: 30px;
+    height: 60px;
+}
+
+.bullet {
+    background-color: #16cb25;
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+}
