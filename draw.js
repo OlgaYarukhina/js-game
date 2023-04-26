@@ -127,12 +127,9 @@ class Cloud {
     } 
     if (cloud.y > 100-cloudDownShift*7){
       live--;
-      console.log(live);
       if (live === 0) handleGameOver();
-      
       clouds.splice(index, 1); // remove cloud from the array
       cloud.html.remove(); // remove cloud's HTML element from the game board  
-     
      life.style.display = "block";
       setTimeout(() => {
         life.style.display = "none";
@@ -170,9 +167,9 @@ function gameLoop() {
   lifesLabel.innerHTML = `Lifes: ${live}`;
   timerValue = Date.now() - gameStartTime - timeOnPause;
   let time = 90000-timerValue;
-  let minutes  = Math.floor(time / 60000);
+  let minutes = Math.floor(time / 60000);
   let seconds = (Math.floor(time/1000)) % 60;
-  minutes == 0 ? "00" : minutes < 10 ? "0" + minutes : minutes;
+  minutes = 0 ? "00" : minutes < 10 ? "0" + minutes : minutes;
   seconds = seconds < 10 ? "0" + seconds : seconds;
   timeLabel.innerHTML = `${minutes} : ${seconds}`;
 
