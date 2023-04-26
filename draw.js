@@ -86,11 +86,15 @@ class Cloud {
         cloud.x += cloudSpeed;
         cloud.html.style.left = `${cloud.x}%`;
       } else {
-        cloud.isRightDirection = false;
-        cloud.x -= cloudSpeed;
+        cloud.x = 0;
         cloud.html.style.left = `${cloud.x}%`;
         cloud.y += cloudDownShift;
         cloud.html.style.top = `${cloud.y}%`;
+        // cloud.isRightDirection = false;
+        // cloud.x -= cloudSpeed;
+        // cloud.html.style.left = `${cloud.x}%`;
+        // cloud.y += cloudDownShift;
+        // cloud.html.style.top = `${cloud.y}%`;
       }    
     } else {
       if (cloud.x - cloudSpeed > 0){
@@ -139,11 +143,11 @@ class Cloud {
 }
 
 function shootLightning(cloud){
-  var lightningObj = new Lightning(lightning, cloud.x, cloud.y)
   const lightning = document.createElement('div');
   lightning.className = 'lightning';
   lightning.style.top = `${cloud.y}%`;
   lightning.style.left = `${cloud.x}%`;
+  var lightningObj = new Lightning(lightning, cloud.x, cloud.y)
   lightnings.push(lightningObj);
   gameBoard.appendChild(lightning);
 }
@@ -231,7 +235,7 @@ function gameLoop() {
   if (isPlaying) requestAnimationFrame(gameLoop);
 }
 
-let spawnSpeed = 3000;
+let spawnSpeed = 2000;
 let gameStartTime = 0;
 let timeOnPause = 0;
 let timerValue = 0;
