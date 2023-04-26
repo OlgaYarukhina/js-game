@@ -4,6 +4,7 @@ const gameBoard = document.getElementById("game-board");
 const game = document.getElementById("game");
 const scoreElement = document.getElementById("score");
 const highScoreElement = document.getElementById("highScore");
+const life = document.getElementById("life")
 
 let isPlaying = false;
 let isGameEnded = false;

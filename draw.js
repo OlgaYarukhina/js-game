@@ -2,12 +2,11 @@ const timeLabel = document.getElementById("timer");
 const lifesLabel = document.getElementById("lifes");
 const highScoreLabel = document.getElementById("highScore");
 const player = document.getElementById('player');
-const playerSpeed = 1;
 
+const playerSpeed = 1;
 let playerX = 50;
 let currentScore = 0;
 let live = 3;
-
 
 let isMovement = false;
 let isRightMovement = false;
@@ -38,10 +37,9 @@ class Lightning{
   }
 }
 
-//bullets
 const bulletDistance = 15;
 const bulletSpeed = 2;
-let bullets = []
+let bullets = [];
 class Bullet {
   constructor(html, y) {
     this.html = html;
@@ -130,40 +128,40 @@ class Cloud {
       }
       clouds.splice(index, 1); // remove cloud from the array
       cloud.html.remove(); // remove cloud's HTML element from the game board  
-    
+     
+     life.style.display = "block";
+      setTimeout(() => {
+        life.style.display = "none";
+      }, 600)
     }
   }
 }
 
 function shootLightning(cloud){
+  var lightningObj = new Lightning(lightning, cloud.x, cloud.y)
   const lightning = document.createElement('div');
   lightning.style.position = 'absolute';
   lightning.style.top = `${cloud.y}%`;
   lightning.style.left = `${cloud.x}%`;
   lightning.style.backgroundColor = 'gold';
   lightning.innerText = "OO";
-  var lightningObj = new Lightning(lightning, cloud.x, cloud.y)
   lightnings.push(lightningObj);
-  console.log(lightning)
   gameBoard.appendChild(lightning);
 }
 
 function shootBullet(){
   if(isPlaying){
     const bullet = document.createElement('div');
+    let bulletObj = new Bullet(bullet, 100)
     bullet.style.position = 'absolute';
     bullet.style.top = '100%';
     bullet.style.left = `${playerX}%`;
     bullet.style.backgroundColor = 'aqua';
     bullet.innerText = "OO";
-    let bulletObj = new Bullet(bullet, 100)
     bullets.push(bulletObj);
-    console.log(bullets)
     gameBoard.appendChild(bullet);
   }
 }
-
-
 
 // Define the game loop
 function gameLoop() {
@@ -211,8 +209,12 @@ function gameLoop() {
       lightning.html.remove(); 
       live--;
       if (live <= 0){
-        gameOver();
+        handleGameOver();
       }
+           life.style.display = "block";
+      setTimeout(() => {
+        life.style.display = "none";
+      }, 600)
     }
   });
 
@@ -230,9 +232,7 @@ function gameLoop() {
   });
   
   // Request the next frame of the game loop
-  if(isPlaying){
-    requestAnimationFrame(gameLoop);
-  }
+  if (isPlaying) requestAnimationFrame(gameLoop);
 }
 
 let spawnSpeed = 3000;
