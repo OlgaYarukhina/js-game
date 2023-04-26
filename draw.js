@@ -105,7 +105,7 @@ class Cloud {
         cloud.html.style.top = `${cloud.y}%`;
       }
     }
-    if (cloud.y > 60){
+    if (cloud.y > 40){
       this.state = ColorState.STORM
       this.html.style.backgroundColor = this.state;
       //call with random time as interval ?
@@ -116,11 +116,11 @@ class Cloud {
             shootLightning(cloud)
           }, Math.random()*4000);
       }
-    } else if (cloud.y > 30){
+    } else if (cloud.y > 15){
       this.state = ColorState.DARK
       this.html.style.backgroundColor = this.state;
     } 
-    if (cloud.y > 100-cloudDownShift*5){
+    if (cloud.y > 100-cloudDownShift*7){
       live--;
       console.log(live);
       if (live === 0) handleGameOver();

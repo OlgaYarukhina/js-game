@@ -3,6 +3,7 @@ const initMenu = document.getElementById("init-menu");
 const gameBoard = document.getElementById("game-board");
 const game = document.getElementById("game");
 const scoreElement = document.getElementById("score");
+const paus = document.getElementById("pause");
 const highScoreElement = document.getElementById("highScore");
 const life = document.getElementById("life")
 
@@ -17,8 +18,10 @@ const pause = () => {
   if (isPlaying) {
     pauseStart = Date.now()
     isPlaying = false;
+    paus.style.background = "#cf10bb";
   } else if (!isPlaying) {
-    timeOnPause += Date.now() - pauseStart
+    timeOnPause += Date.now() - pauseStart;
+    paus.style.background = "#232c3c";
     isPlaying = true;
     requestAnimationFrame(gameLoop);
   }
