@@ -12,7 +12,7 @@ let isMovement = false;
 let isRightMovement = false;
 
 const lightningSpeed = 1;
-let lightnings = []
+let lightnings = [];
 class Lightning{
   constructor(html, x, y) {
     this.html = html;
@@ -61,7 +61,7 @@ const cloudDownShift = 5;
 let numberOfBrokenClouds = 0;
 const min = 5000;
 const max = 10000;
-let clouds = []
+let clouds = [];
 const ColorState = {
   NORMAL: 'gray',
   DARK: 'green',
@@ -123,9 +123,8 @@ class Cloud {
     if (cloud.y > 100-cloudDownShift*5){
       live--;
       console.log(live);
-      if (live === 0){
-        handleGameOver()
-      }
+      if (live === 0) handleGameOver();
+      
       clouds.splice(index, 1); // remove cloud from the array
       cloud.html.remove(); // remove cloud's HTML element from the game board  
      
@@ -165,17 +164,17 @@ function shootBullet(){
 
 // Define the game loop
 function gameLoop() {
-  highScoreLabel.innerHTML = `High score: ${highScore}`
-  lifesLabel.innerHTML = `Lifes: ${live}`
+  highScoreLabel.innerHTML = `High score: ${highScore}`;
+  lifesLabel.innerHTML = `Lifes: ${live}`;
   timerValue = Date.now() - gameStartTime - timeOnPause;
   let time = 90000-timerValue;
   let minutes  = Math.floor(time / 60000);
   let seconds = (Math.floor(time/1000)) % 60;
   minutes == 0 ? "00" : minutes < 10 ? "0" + minutes : minutes;
   seconds = seconds < 10 ? "0" + seconds : seconds;
-  timeLabel.innerHTML = `${minutes} : ${seconds}`
+  timeLabel.innerHTML = `${minutes} : ${seconds}`;
 
-  if (time <= 0) handleWin() 
+  if (time <= 0) handleWin(); 
   
   // Update the player's position
   if (isMovement){
@@ -208,10 +207,8 @@ function gameLoop() {
       lightnings.splice(index, 1);
       lightning.html.remove(); 
       live--;
-      if (live <= 0){
-        handleGameOver();
-      }
-           life.style.display = "block";
+      if (live <= 0) handleGameOver();
+      life.style.display = "block";
       setTimeout(() => {
         life.style.display = "none";
       }, 600)
@@ -262,16 +259,13 @@ function spawnCloud() {
     cloud.innerText = "OO";
     cloudObj = new Cloud(cloud, x, 0)
     clouds.push(cloudObj);
-    console.log(clouds)
     gameBoard.appendChild(cloud);
-    
     // Schedule the next cloud spawn
     updateSpawnSpeed()
-  }
-  const nextSpawnTime = Date.now() + spawnSpeed;
-  if(!isGameEnded){
-    setTimeout(spawnCloud, nextSpawnTime - Date.now());
-  }
+    }
+
+    const nextSpawnTime = Date.now() + spawnSpeed;
+    if (!isGameEnded) setTimeout(spawnCloud, nextSpawnTime - Date.now());
 }
   
 function activateSpawner() {
