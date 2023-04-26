@@ -215,3 +215,20 @@ body {
     width: 10px;
     height: 10px;
 }
+
+.bulletSets{
+    position: absolute;
+    /* width: 25%; */
+    top: 5%;
+    left: 5%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.bulletSet{
+    margin: 3px;
+    background-color: #16cb25;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+}

@@ -23,14 +23,14 @@ document.addEventListener('keydown', event => {
   // shooting !!! add reload (timeout for key pressing)
   let spaceKeyPressed = false;
   document.addEventListener('keydown', function(event) {
-    if (event.code === 'Space' && !spaceKeyPressed) {
+    if (event.key === 'w' && !spaceKeyPressed) {
       spaceKeyPressed = true;
       console.log("shoot")
       shootBullet()
     }
   });
   document.addEventListener('keyup', function(event) {
-    if (event.code === 'Space') {
+    if (event.key === 'w') {
       spaceKeyPressed = false;
     }
   });

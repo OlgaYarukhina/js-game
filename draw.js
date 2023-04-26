@@ -3,10 +3,19 @@ const lifesLabel = document.getElementById("lifes");
 const highScoreLabel = document.getElementById("highScore");
 const player = document.getElementById('player');
 
+let spawnSpeed = 1000;
+let gameStartTime = 0;
+let timeOnPause = 0;
+let timerValue = 0;
+
+let bulletSetAmount = 10;
+let bulletSetAmountCurrent = 10;
+
 const playerSpeed = 1;
 let playerX = 50;
 let currentScore = 0;
 let live = 3;
+let bulletsAmount = 100;
 
 let isMovement = false;
 let isRightMovement = false;
@@ -56,18 +65,12 @@ class Bullet {
   }
 }
 
-const cloudSpeed = 0.5;
+const cloudSpeed = 0.75;
 const cloudDownShift = 5;
 let numberOfBrokenClouds = 0;
 const min = 5000;
 const max = 10000;
 let clouds = [];
-// const ColorState = {
-//   NORMAL: 'url(img/cloudLight.png)',
-//   DARK: 'green',
-//   STORM: 'blue'
-// };
-
 
 class Cloud {
   constructor(html, x, y) {
@@ -90,11 +93,6 @@ class Cloud {
         cloud.html.style.left = `${cloud.x}%`;
         cloud.y += cloudDownShift;
         cloud.html.style.top = `${cloud.y}%`;
-        // cloud.isRightDirection = false;
-        // cloud.x -= cloudSpeed;
-        // cloud.html.style.left = `${cloud.x}%`;
-        // cloud.y += cloudDownShift;
-        // cloud.html.style.top = `${cloud.y}%`;
       }    
     } else {
       if (cloud.x - cloudSpeed > 0){
@@ -108,14 +106,10 @@ class Cloud {
         cloud.html.style.top = `${cloud.y}%`;
       }
     }
-    if (cloud.y > 40){
-     // this.state = ColorState.STORM
-     // this.html.style.backgroundColor = this.state;
+    if (cloud.y > 30){
       this.html.classList.remove('cloudDark');
       this.html.classList.add('cloudStorm');
 
-
-      //call with random time as interval ?
       if(!this.isLightened){
         this.isLightened = true
         setTimeout(
@@ -124,12 +118,8 @@ class Cloud {
           }, Math.random()*4000);
       }
     } else if (cloud.y > 15){
-     // this.state = ColorState.DARK
-     // this.html.style.backgroundColor = this.state;
-     this.html.classList.remove('cloudLight');
-     this.html.classList.add('cloudDark');
-
-
+      this.html.classList.remove('cloudLight');
+      this.html.classList.add('cloudDark');
     } 
     if (cloud.y > 100-cloudDownShift*7){
       live--;
@@ -156,14 +146,21 @@ function shootLightning(cloud){
 
 function shootBullet(){
   if(isPlaying){
-    const bullet = document.createElement('div');
-    let bulletObj = new Bullet(bullet, 100);
-    bullet.className = 'bullet'
-    bullet.style.position = 'absolute';
-    bullet.style.top = '99%';
-    bullet.style.left = `${playerX}%`;
-    bullets.push(bulletObj);
-    gameBoard.appendChild(bullet);
+    if (bulletsAmount > 0){
+      bulletsAmount--;
+      const bullet = document.createElement('div');
+      let bulletObj = new Bullet(bullet, 100);
+      bullet.className = 'bullet'
+      bullet.style.position = 'absolute';
+      bullet.style.top = '99%';
+      bullet.style.left = `${playerX}%`;
+      bullets.push(bulletObj);
+      gameBoard.appendChild(bullet);
+      if(Math.ceil(bulletsAmount/bulletSetAmount)===bulletSetAmountCurrent-1){
+        document.getElementById(`bulletSet${bulletSetAmountCurrent}`).style.display = "none";
+        bulletSetAmountCurrent--;
+      }
+    }
   }
 }
 
@@ -237,17 +234,12 @@ function gameLoop() {
   if (isPlaying) requestAnimationFrame(gameLoop);
 }
 
-let spawnSpeed = 2000;
-let gameStartTime = 0;
-let timeOnPause = 0;
-let timerValue = 0;
-
 function updateSpawnSpeed() {
   console.log(timerValue)
   if (timerValue > 30000) { // increase spawn speed after 30 seconds
-    spawnSpeed = 1000;
-  } else if (timerValue > 60000) { // increase spawn speed after 1 minute
     spawnSpeed = 500;
+  } else if (timerValue > 60000) { // increase spawn speed after 1 minute
+    spawnSpeed = 200;
   } else if (timerValue > 120000) { // increase spawn speed after 2 minute
     spawnSpeed = 50;
   } 
@@ -263,15 +255,27 @@ function spawnCloud() {
     gameBoard.appendChild(cloud);
     // Schedule the next cloud spawn
     updateSpawnSpeed()
-    }
+  }
 
-    const nextSpawnTime = Date.now() + spawnSpeed;
-    if (!isGameEnded) setTimeout(spawnCloud, nextSpawnTime - Date.now());
+  const nextSpawnTime = Date.now() + spawnSpeed;
+  if (!isGameEnded) setTimeout(spawnCloud, nextSpawnTime - Date.now());
 }
   
 function activateSpawner() {
   gameStartTime = Date.now();
   spawnCloud();
+}
+
+function setupBullets(){
+  const bulletSets = document.createElement('div');
+  bulletSets.className = 'bulletSets';
+  for(i=1; i<bulletSetAmount+1; i++){
+    const bulletSet = document.createElement('div');
+    bulletSet.className = 'bulletSet';
+    bulletSet.id = `bulletSet${i}`;
+    bulletSets.appendChild(bulletSet)
+  }
+  gameBoard.appendChild(bulletSets)
 }
 
 // Define a function to check for collision between two div elements
@@ -286,44 +290,3 @@ function isColliding(el1, el2) {
            rect1.bottom < rect2.top || 
            rect1.top > rect2.bottom);
 }
-
-
-  
-
-
-    // set up timerValue to change cloud state
-    // this.timerValue = setInterval(() => {
-    //   if (this.state === ColorState.NORMAL && isPlaying) {
-    //     this.state = ColorState.DARK;
-    //   } else if (this.state === ColorState.DARK && isPlaying) {
-    //     this.state = ColorState.STORM;
-    //   } else if (isPlaying) {
-    //     // do some action for storm state
-    //     console.log("Storm state - do some action");
-        
-    //     // change back to normal state after action is done
-    //     this.state = ColorState.NORMAL;
-    //   }
-      
-    //   // update cloud color based on state
-    //   this.html.style.backgroundColor = this.state;
-    // }, this.interval);
-
-
-    // set up timerValue to change cloud state
-    // this.timerValue = setInterval(() => {
-    //   if (this.state === ColorState.NORMAL && isPlaying) {
-    //     this.state = ColorState.DARK;
-    //   } else if (this.state === ColorState.DARK && isPlaying) {
-    //     this.state = ColorState.STORM;
-    //   } else if (isPlaying) {
-    //     // do some action for storm state
-    //     console.log("Storm state - do some action");
-        
-    //     // change back to normal state after action is done
-    //     this.state = ColorState.NORMAL;
-    //   }
-      
-    //   // update cloud color based on state
-    //   this.html.style.backgroundColor = this.state;
-    // }, this.interval); 
