@@ -1,23 +1,40 @@
 // Listen for keyboard input
 
+let isRightPressed = false;
+let isLeftPressed = false;
+
 document.addEventListener('keydown', event => {
     // Move the player left when the left arrow key is pressed
     if (event.code === "ArrowLeft") {
-      isMovement = true;
-      isRightMovement = false;
+      if (!isLeftPressed){
+        playerSpeed += -1;
+        isLeftPressed = true;
+      }
+      // isLeftPressed = true;
+      // isMovement = true;
+      // isRightMovement = false;
     }
     // Move the player right when the right arrow key is pressed
     if (event.code === "ArrowRight") {
-      isMovement = true;
-      isRightMovement = true;
+      if(!isRightPressed){
+        playerSpeed += 1;
+        isRightPressed = true;
+      }
+      // isRightPressed = true;
+      // isMovement = true;
+      // isRightMovement = true;
     }
   });
   document.addEventListener('keyup', function(event) {
     if (event.code === "ArrowLeft") {
-      isMovement = false;
+      playerSpeed += 1;
+      isLeftPressed = false;
+      // isMovement = false;
     }
     if (event.code === "ArrowRight") {
-      isMovement = false;
+      playerSpeed -= 1;
+      isRightPressed = false;
+      // isMovement = false;
     }
   });
   // shooting !!! add reload (timeout for key pressing)
