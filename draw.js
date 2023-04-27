@@ -151,8 +151,7 @@ function shootBullet(){
       const bullet = document.createElement('div');
       let bulletObj = new Bullet(bullet, 100);
       bullet.className = 'bullet'
-      bullet.style.position = 'absolute';
-      bullet.style.top = '99%';
+      bullet.style.top = '95%';
       bullet.style.left = `${playerX}%`;
       bullets.push(bulletObj);
       gameBoard.appendChild(bullet);
@@ -176,7 +175,7 @@ function gameLoop() {
   seconds = seconds < 10 ? "0" + seconds : seconds;
   timeLabel.innerHTML = `${minutes} : ${seconds}`;
 
-  if (time <= 0) handleWin(); 
+  if (time < 0) handleWin(); 
   
   // Update the player's position
   if (isMovement){

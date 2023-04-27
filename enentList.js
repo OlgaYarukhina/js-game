@@ -1,5 +1,5 @@
 // Listen for keyboard input
-//movement
+
 document.addEventListener('keydown', event => {
     // Move the player left when the left arrow key is pressed
     if (event.code === "ArrowLeft") {
@@ -23,14 +23,13 @@ document.addEventListener('keydown', event => {
   // shooting !!! add reload (timeout for key pressing)
   let spaceKeyPressed = false;
   document.addEventListener('keydown', function(event) {
-    if (event.key === 'w' && !spaceKeyPressed) {
+    if (event.key === 'w' || event.key === 'W' && !spaceKeyPressed) {
       spaceKeyPressed = true;
-      console.log("shoot")
       shootBullet()
     }
   });
   document.addEventListener('keyup', function(event) {
-    if (event.key === 'w') {
+    if (event.key === 'w' || event.key === 'W' ) {
       spaceKeyPressed = false;
     }
   });
