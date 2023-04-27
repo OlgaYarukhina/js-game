@@ -14,7 +14,7 @@ let timerValue = 0;
 let bulletSetAmount = 10;
 let bulletSetAmountCurrent = 10;
 
-const playerSpeed = 1;
+let playerSpeed = 0;
 let playerX = 50;
 let currentScore = 0;
 let live = 3;
@@ -181,17 +181,9 @@ function gameLoop() {
 
   if (time < 0) handleWin(); 
   
-  // Update the player's position
-  if (isMovement){
-    if (isRightMovement){
-      if (playerX + playerSpeed < 95){
-        playerX += playerSpeed;
-      }
-    } else {
-      if ( playerX - playerSpeed > 0){
-        playerX -= playerSpeed;
-      }
-    }
+
+  if(((playerX + playerSpeed) >= 2) && ((playerX + playerSpeed) <= 95) ){
+    playerX += playerSpeed;
   }
   player.style.left = `${playerX}%`;
 
