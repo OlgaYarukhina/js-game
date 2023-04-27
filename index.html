@@ -31,13 +31,14 @@
 
     <div id="win" style="display:none">
         <h1>YOU SAVED THE WORLD!</h1>
-        <div class="story" id="score"></div>
+        <div class="story" id="scoreWin"></div>
         <br> <a href="#" onclick="restart()">Play again</a>
     </div>
 
     <div id="game" class="game" style="display: none;">
         <div class="game-details">
             <span id="highScore"></span>
+            <span id="score"></span>
             <span id="timer"></span>
             <span id="lifes"></span>
         </div>
@@ -47,6 +48,7 @@
             <div id="player" class="man"></div>
         </div>
         <div class="lifes" id="life" style="display: none;"> - 1 Life </div>
+        <div class="lifes" id="lifeCloud" style="display: none;"> - 1 Life <br> cloud too low </div>
         <div class="buttons">
             <button onclick="pause()" id = "pause" type="button" class="btnPause">Pause</button>
             <button onclick="restart()" type="button" class="btnPause">Restart</button>

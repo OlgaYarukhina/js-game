@@ -2,10 +2,10 @@
 const initMenu = document.getElementById("init-menu");
 const gameBoard = document.getElementById("game-board");
 const game = document.getElementById("game");
-const scoreElement = document.getElementById("score");
+const scoreElement = document.getElementById("scoreWin");
 const paus = document.getElementById("pause");
 const highScoreElement = document.getElementById("highScore");
-const life = document.getElementById("life")
+
 
 let isPlaying = false;
 let isGameEnded = false;
@@ -48,6 +48,7 @@ const handleGameOver = () => {
   let gameOver = document.getElementById("gameOver")
   game.style.display = "none";
   gameOver.style.display = "block";
+  checkScore();
 }
 
 
@@ -56,7 +57,8 @@ const handleWin = () => {
   let win = document.getElementById("win")
   game.style.display = "none";
   win.style.display = "block";
-  scoreElement.innerText = `Score: ${numberOfBrokenClouds} clouds`;
+  scoreElement.innerText = `Score: ${numberOfBrokenClouds} + 100 clouds`;
+  numberOfBrokenClouds = numberOfBrokenClouds + 100;
   checkScore();
 }
 

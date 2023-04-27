@@ -1,6 +1,9 @@
 const timeLabel = document.getElementById("timer");
 const lifesLabel = document.getElementById("lifes");
+const lifesCloudLabel = document.getElementById("lifeCloud");
 const highScoreLabel = document.getElementById("highScore");
+const scoreLabel = document.getElementById("score");
+const life = document.getElementById("life")
 const player = document.getElementById('player');
 
 let spawnSpeed = 1000;
@@ -126,9 +129,9 @@ class Cloud {
       if (live === 0) handleGameOver();
       clouds.splice(index, 1); // remove cloud from the array
       cloud.html.remove(); // remove cloud's HTML element from the game board  
-     life.style.display = "block";
+     lifeCloud.style.display = "block";
       setTimeout(() => {
-        life.style.display = "none";
+        lifeCloud.style.display = "none";
       }, 600)
     }
   }
@@ -165,15 +168,16 @@ function shootBullet(){
 
 // Define the game loop
 function gameLoop() {
-  highScoreLabel.innerHTML = `High score: ${highScore}`;
-  lifesLabel.innerHTML = `Lifes: ${live}`;
+  highScoreLabel.innerHTML = `High score:  ${highScore} clouds`;
+  lifesLabel.innerHTML = `Lives:  ${live}`;
+  scoreLabel.innerText = `Score:  ${numberOfBrokenClouds} clouds`;
   timerValue = Date.now() - gameStartTime - timeOnPause;
   let time = 90000-timerValue;
   let minutes = Math.floor(time / 60000);
   let seconds = (Math.floor(time/1000)) % 60;
   minutes = 0 ? "00" : minutes < 10 ? "0" + minutes : minutes;
   seconds = seconds < 10 ? "0" + seconds : seconds;
-  timeLabel.innerHTML = `${minutes} : ${seconds}`;
+  timeLabel.innerHTML = `Time:  ${minutes} : ${seconds}`;
 
   if (time < 0) handleWin(); 
   
@@ -222,7 +226,7 @@ function gameLoop() {
       if (isColliding(bullet.html, cloud.html)) {
         clouds.splice(ci, 1); // remove cloud from the array
         cloud.html.remove(); // remove cloud's HTML element from the game board
-        bullets.splice(bi, 1); // remove bullet from the array
+       bullets.splice(bi, 1); // remove bullet from the array
         bullet.html.remove(); // remove bullet's HTML element from the game board   
         numberOfBrokenClouds++;
       }
