@@ -132,7 +132,7 @@ class Cloud {
      lifeCloud.style.display = "block";
       setTimeout(() => {
         lifeCloud.style.display = "none";
-      }, 600)
+      }, 900)
     }
   }
 }
