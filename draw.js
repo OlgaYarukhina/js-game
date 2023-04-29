@@ -150,6 +150,7 @@ function shootLightning(cloud){
 function shootBullet(){
   if(isPlaying){
     if (bulletsAmount > 0){
+      document.getElementById('piu-sound').play();
       bulletsAmount--;
       const bullet = document.createElement('div');
       let bulletObj = new Bullet(bullet, 100);
@@ -201,6 +202,7 @@ function gameLoop() {
   lightnings.forEach((lightning, index) => {
     lightning.update(lightning, index)
     if(isColliding(player, lightning.html)){
+      document.getElementById('lightning2face-sound').play();
       lightnings.splice(index, 1);
       lightning.html.remove(); 
       live--;

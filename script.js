@@ -6,6 +6,8 @@ const scoreElement = document.getElementById("scoreWin");
 const paus = document.getElementById("pause");
 const highScoreElement = document.getElementById("highScore");
 
+const gamesound = document.getElementById("game-sound");
+
 
 let isPlaying = false;
 let isGameEnded = false;
@@ -33,7 +35,9 @@ const restart = () => {
 }
 
 
+
 const play = () => {
+  document.getElementById('game-sound').play();
   isPlaying = true;
   initMenu.style.display = "none";
   game.style.display = "block";
@@ -44,6 +48,7 @@ const play = () => {
 
 
 const handleGameOver = () => {
+  document.getElementById('lose-sound').play();
   isPlaying = false;
   let gameOver = document.getElementById("gameOver")
   game.style.display = "none";
